@@ -1,0 +1,54 @@
+@font-face {
+  font-family: 'Inder';
+  src: url("../../assets/fonts/Inder-Regular.ttf") format('truetype');
+}
+
+body{
+  height: 0px;
+  margin: 0px;
+}
+
+.sideBar {
+  width: 316px;
+  height: 100vh;
+  background-color: #9D0F0F;
+}
+
+.link{
+  cursor: pointer;
+  text-decoration: none;
+  width: 85%;
+  position: relative;
+  top: 30px;
+  left: 12px;
+  display: inline-block;
+  padding: 5px;
+  vertical-align: middle;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+.deconnexion{
+  top: 30vh !important;
+}
+
+.deconnexion span{
+  margin-left: 25px;
+}
+
+.active, .link:hover{
+  background-color: #547654;
+}
+
+.sideIcon{
+  position: relative;
+  top: 5px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.link-title{
+  color: white;
+  font-size: 36px;
+  font-family: 'Inder', sans-serif;
+}
