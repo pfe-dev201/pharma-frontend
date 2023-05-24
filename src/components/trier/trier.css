@@ -7,11 +7,11 @@
 
 .trier:hover{
   cursor: pointer;
-  color: #DA1C1C;
+  color: #A70505;
 }
 
 .trier:hover svg path{
-  fill: #DA1C1C;
+  fill: #A70505;
 }
 
 .trier span{

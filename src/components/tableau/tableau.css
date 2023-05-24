@@ -28,9 +28,9 @@ td{
 
 .supprimer{
   cursor: pointer;
-  color: #DA1C1C;
+  color: #A70505;
 }
 
 .supprimer:hover{
-  color: #9D0F0F;
+  color: #DA1C1C;
 }
