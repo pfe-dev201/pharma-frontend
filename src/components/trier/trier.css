@@ -1,0 +1,21 @@
+.trier{
+  display: flex;
+  justify-content: space-between;
+  width: 102px;
+  margin-left: 30px;
+}
+
+.trier:hover{
+  cursor: pointer;
+  color: #A70505;
+}
+
+.trier:hover svg path{
+  fill: #A70505;
+}
+
+.trier span{
+  position: relative;
+  top: 10px;
+  font-size: 24px;
+}

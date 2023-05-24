@@ -3,15 +3,17 @@
   src: url("../../assets/fonts/Inder-Regular.ttf") format('truetype');
 }
 
-body{
-  height: 0px;
-  margin: 0px;
-}
-
 .sideBar {
   width: 316px;
   height: 100vh;
   background-color: #9D0F0F;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.link-div{
+  margin-top: 1vh;
 }
 
 .link{
@@ -29,7 +31,7 @@ body{
 }
 
 .deconnexion{
-  top: 30vh !important;
+  margin-bottom: 7vh;
 }
 
 .deconnexion span{

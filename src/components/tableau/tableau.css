@@ -1,0 +1,36 @@
+.tableau{
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.th{
+  border-bottom: solid 3px #9D0F0F;
+  font-size: 24px;
+  padding: 10px 1.7vw;
+}
+
+td{
+  border-bottom: solid 1px #9D0F0F;
+  font-size: 24px;
+  text-align: center;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.editer{
+  cursor: pointer;
+  color: #509E4F;
+}
+
+.editer:hover{
+  color: #2c562b;
+}
+
+.supprimer{
+  cursor: pointer;
+  color: #A70505;
+}
+
+.supprimer:hover{
+  color: #DA1C1C;
+}
