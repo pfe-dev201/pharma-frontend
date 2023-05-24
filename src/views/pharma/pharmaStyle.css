@@ -1,4 +1,20 @@
+@font-face {
+  font-family: 'Inder';
+  src: url("../../assets/fonts/Inder-Regular.ttf") format('truetype');
+}
+
+body{
+  height: 0px;
+  margin: 0px;
+  font-family: 'Inder', sans-serif;
+}
+
 .pharmaView {
   margin: 0px;
   padding: 0px;
+  display: flex;
+}
+
+.content{
+  width: calc(100% - 316px);
 }

@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LoginView from "./views/login/loginView";
 import PharmaView from "./views/pharma/pharmaView";
+import EntreesView from "./views/pharma/content/entrees/entreesView";
 
 const router = createBrowserRouter ([
   {
@@ -19,7 +20,7 @@ const router = createBrowserRouter ([
       },
       {
         path: "entrees",
-        element: <LoginView />,
+        element: <EntreesView />,
       },
       {
         path: "sorties",
