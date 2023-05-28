@@ -5,6 +5,8 @@ import Trier from "../../../../components/trier/trier.jsx";
 import "./entreesStyle.css";
 import FormAjouterMedicament from "../../../../components/formAjouterMedicament/formAjouterMedicament";
 import CustomAlert from "../../../../components/customAlert/customAlert";
+import FormFiltrerMedicament from "../../../../components/formFiltrerMedicament/formFiltrerMedicament";
+import FormTrierMedicament from "../../../../components/formTrierMedicament/formTrierMedicament";
 
 function EntreesView() {
   const medicament = {
@@ -18,11 +20,43 @@ function EntreesView() {
   };
 
   const [openForm, setOpenForm] = useState(false);
+  const [openFormFiltre, setOpenFormFiltre] = useState(false);
+  const [openFormTrie, setOpenFormTrie] = useState(false);
   const [openAlertAdd, setOpenAlertAdd] = useState(false);
+  const [messageAlert, setMessageAlert] = useState("");
   const [error, setError] = useState(null);
+  const [errorFiltre, setErrorFiltre] = useState(null);
+  const [errorTrie, setErrorTrie] = useState(null);
+
+  const onValidateFilterHandler = () => {
+    setErrorFiltre({commencePar: "erreur", DateEgaleA: "erreur categorie"});
+    setMessageAlert("le filtre a bien été modifié");
+    setOpenAlertAdd(true);
+    setOpenFormFiltre(false);
+  };
+
+  const onDeleteFilterHandler = () => {
+    setMessageAlert("le filtre a bien été supprimé");
+    setOpenAlertAdd(true);
+    setOpenFormFiltre(false);
+  };
+
+  const onValidateTrierHandler = () => {
+    setErrorTrie({commencePar: "erreur", DateEgaleA: "erreur categorie"});
+    setMessageAlert("le trie a bien été modifié");
+    setOpenAlertAdd(true);
+    setOpenFormTrie(false);
+  };
+
+  const onDeleteTrierHandler = () => {
+    setMessageAlert("le trie a bien été supprimé");
+    setOpenAlertAdd(true);
+    setOpenFormTrie(false);
+  };
 
   const onAddHandler = () => {
     setError({conditionnement: "erreur", categorie: "erreur categorie"});
+    setMessageAlert("le médicament a bien été ajouté");
     setOpenAlertAdd(true);
     setOpenForm(false);
   };
@@ -44,17 +78,33 @@ function EntreesView() {
         onClickAjouter={onAddHandler}
         error={error}
       />
+      <FormFiltrerMedicament
+        open={openFormFiltre}
+        handleClose={() => setOpenFormFiltre(false)}
+        onClickAnnuler={() => setOpenFormFiltre(false)}
+        onClickValider={onValidateFilterHandler}
+        onClickDeleteFiltre={onDeleteFilterHandler}
+        error={errorFiltre}
+      />
+      <FormTrierMedicament
+        open={openFormTrie}
+        handleClose={() => setOpenFormTrie(false)}
+        onClickAnnuler={() => setOpenFormTrie(false)}
+        onClickValider={onValidateTrierHandler}
+        onClickDeleteFiltre={onDeleteTrierHandler}
+        error={errorTrie}
+      />
       <div className="header">
 
       </div>
-      <CustomAlert status="success" open={openAlertAdd}>le médicament a bien été ajouté</CustomAlert> 
+      <CustomAlert status="success" open={openAlertAdd}>{messageAlert}</CustomAlert> 
       <div className="option">
         <div className="boutton-ajouter-medicament" onClick={() => setOpenForm(true)}>
           <p>AJOUTER UN MEDICAMENT</p>
         </div>
         <div className="filtrer-trier">
-          <Trier />
-          <Filtrer />
+          <Trier onClickTrier={() => setOpenFormTrie(true)}/>
+          <Filtrer onClickFiltrer={() => setOpenFormFiltre(true)}/>
         </div>
       </div>
 

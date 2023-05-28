@@ -33,6 +33,7 @@ function CustomInput({
               error = {error}
               onChange={onChangeValue}
               helperText={textError}
+              style={disabled ? {backgroundColor: "#D9D9D9", opacity: "0.8"} : {}}
             >
               {options.map((option) => (
                 <MenuItem key={option} value={option}>
@@ -54,6 +55,7 @@ function CustomInput({
                 value={value}
                 onChange={onChangeValue}
                 inputProps={{min: 0}}
+                style={disabled ? {backgroundColor: "#D9D9D9", opacity: "0.8"} : {}}
               />
               <p className="textError">{textError}</p>
             </>
@@ -64,17 +66,17 @@ function CustomInput({
 }
 
 CustomInput.propTypes = {
-  inputLabel: PropTypes.func.isRequired,
-  type: PropTypes.string.isRequired,
+  inputLabel: PropTypes.string.isRequired,
+  type: PropTypes.string,
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  placeholder: PropTypes.string.isRequired,
+  placeholder: PropTypes.string,
   isSelect: PropTypes.bool,
   disabled: PropTypes.bool,
   error: PropTypes.bool,
   textError: PropTypes.string,
   options: PropTypes.array,
-  value: PropTypes.object,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   onChangeValue: PropTypes.func.isRequired
 };
 
