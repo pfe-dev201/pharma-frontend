@@ -23,7 +23,7 @@ function FormAjouterMedicament({ open, handleClose, onClickAjouter, onClickAnnul
       <DialogTitle>Ajouter un médicament :</DialogTitle>
       <DialogContent>
         <Grid container>
-          <Grid xs={6}>
+          <Grid item xs={6}>
             <CustomInput
               type="date"
               id="date"
@@ -34,7 +34,7 @@ function FormAjouterMedicament({ open, handleClose, onClickAjouter, onClickAnnul
               onChangeValue={(e) => setDate(e.target.value)}
             />
           </Grid>
-          <Grid xs={6}>
+          <Grid item xs={6}>
             <CustomInput
               type="date"
               id="peremption"
@@ -47,7 +47,7 @@ function FormAjouterMedicament({ open, handleClose, onClickAjouter, onClickAnnul
           </Grid>
         </Grid>
         <Grid container>
-          <Grid xs={6}>
+          <Grid item xs={6}>
             <CustomInput 
               isSelect
               id="categorie"
@@ -60,11 +60,11 @@ function FormAjouterMedicament({ open, handleClose, onClickAjouter, onClickAnnul
               onChangeValue={(e) => setCategorie(e.target.value)}
             />
           </Grid>
-          <Grid xs={6}>
+          <Grid item xs={6}>
             <CustomInput
               type="text"
               id="autre"
-              name="autre"
+              name="categorie"
               placeholder="Autre"
               error={error !== null ? error.autreCategorie ? true : false : false}
               value={autreCategorie}
@@ -75,7 +75,7 @@ function FormAjouterMedicament({ open, handleClose, onClickAjouter, onClickAnnul
           </Grid>
         </Grid>
         <Grid container>
-          <Grid xs={12}>
+          <Grid item xs={12}>
             <CustomInput
               type="text"
               id="designation"
@@ -89,7 +89,7 @@ function FormAjouterMedicament({ open, handleClose, onClickAjouter, onClickAnnul
           </Grid>
         </Grid>
         <Grid container>
-          <Grid xs={6}>
+          <Grid item xs={6}>
             <CustomInput
               type="text"
               id="conditionnement"
@@ -102,7 +102,7 @@ function FormAjouterMedicament({ open, handleClose, onClickAjouter, onClickAnnul
               onChangeValue={(e) => setConditionnement(e.target.value.toUpperCase())}
             />
           </Grid>
-          <Grid xs={6}>
+          <Grid item xs={6}>
             <CustomInput
               type="number"
               id="quantite"
@@ -116,14 +116,14 @@ function FormAjouterMedicament({ open, handleClose, onClickAjouter, onClickAnnul
           </Grid>
         </Grid>
         <Grid container>
-          <Grid xs={6}></Grid>
-          <Grid xs={3}>
-            <div className="boutton-ajouter-medicament" onClick={onClickAnnuler}>
+          <Grid item xs={6}></Grid>
+          <Grid item xs={3}>
+            <div className="boutton" onClick={onClickAnnuler}>
               <p>ANNULER</p>
             </div>
           </Grid>
-          <Grid xs={3}>
-            <div className="boutton-ajouter-medicament" onClick={onClickAjouter}>
+          <Grid item xs={3}>
+            <div className="boutton" onClick={onClickAjouter}>
               <p>AJOUTER</p>
             </div>
           </Grid>
