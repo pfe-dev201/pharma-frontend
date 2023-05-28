@@ -1,0 +1,25 @@
+.customAlert{
+  margin: 1vh 3vw;
+  overflow: hidden;
+}
+
+.alert{
+  display: flex;
+  justify-content: flex-end;
+}
+
+.status{
+  width: 17px;
+  border-left: solid 1px black;
+}
+
+.customAlert p{
+  border: solid 1px black;
+  height: 30px;
+  margin: 0px;
+  padding: 10px 30px;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  font-size: 24px;
+}
