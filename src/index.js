@@ -5,7 +5,7 @@ import LoginView from "./views/login/loginView";
 import PharmaView from "./views/pharma/pharmaView";
 import EntreesView from "./views/pharma/content/entrees/entreesView";
 
-const router = createBrowserRouter ([
+const router = createBrowserRouter([
   {
     path: "/",
     element: <LoginView />,

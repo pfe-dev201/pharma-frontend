@@ -18,8 +18,7 @@
     ],
     "rules": {
         "indent": [
-            "error",
-            2
+            "off"
         ],
         "quotes": [
             "error",
