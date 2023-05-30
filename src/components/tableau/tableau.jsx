@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import "./tableau.css";
 
-function Tableau({ headers, datas, debut, fin, editerClick, supprimerClick }) {
+function Tableau({ headers, headersData, datas, debut, fin, editerClick, supprimerClick }) {
   return (
     <table className="tableau">
       <thead>
@@ -16,7 +16,7 @@ function Tableau({ headers, datas, debut, fin, editerClick, supprimerClick }) {
       <tbody>
         {datas.slice(debut-1, fin).map((data, index) => (
           <tr key={index}>
-            {headers.map((header) => (
+            {headersData.map((header) => (
               <td key={header}>{data[header]}</td>
             ))}
             <td className="action">
@@ -32,6 +32,7 @@ function Tableau({ headers, datas, debut, fin, editerClick, supprimerClick }) {
 
 Tableau.propTypes = {
   headers: PropTypes.arrayOf(PropTypes.string).isRequired,
+  headersData: PropTypes.arrayOf(PropTypes.string).isRequired,
   datas: PropTypes.array.isRequired,
   debut: PropTypes.number.isRequired,
   fin: PropTypes.number.isRequired,

@@ -17,11 +17,22 @@ function FormFiltrerMedicament({
   const optionsFiltrerPar = ["DATE", "PEREMPTION", "CATEGORIE", "DESIGNATION", "CONDITIONNEMENT", "QUANTITE"];
   const [optionsTypeFiltre, setOptionsTypeFiltre] = useState(["DATE EGALE A", "DATE INFERIEUR A", "DATE SUPERIEUR A"]);
 
+  const getDate = () => {
+    let date = new Date();
+
+    let year = date.getFullYear();
+    let month = ("0" + (date.getMonth() + 1)).slice(-2);
+    let day = ("0" + date.getDate()).slice(-2);
+
+    let formattedDate = year + "-" + month + "-" + day;
+    return formattedDate;
+  };
+
   const [filtrerPar, setFiltrerPar] = useState("DATE");
   const [typeFiltre, setTypeFiltre] = useState("DATE EGALE A");
-  const [dateSuperieurA, setDateSuperieurA] = useState(new Date());
-  const [dateInferieurA, setDateInferieurA] = useState(new Date());
-  const [dateEgaleA, setDateEgaleA] = useState(new Date());
+  const [dateSuperieurA, setDateSuperieurA] = useState(getDate());
+  const [dateInferieurA, setDateInferieurA] = useState(getDate());
+  const [dateEgaleA, setDateEgaleA] = useState(getDate());
   const [egaleA, setEgaleA] = useState("");
   const [commencePar, setCommencePar] = useState("");
   const [terminePar, setTerminePar] = useState("");
@@ -42,9 +53,9 @@ function FormFiltrerMedicament({
   };
 
   const resetForm = () => {
-    setDateSuperieurA(new Date());
-    setDateInferieurA(new Date());
-    setDateEgaleA(new Date());
+    setDateSuperieurA(getDate());
+    setDateInferieurA(getDate());
+    setDateEgaleA(getDate());
     setEgaleA("");
     setCommencePar("");
     setTerminePar("");
@@ -65,7 +76,7 @@ function FormFiltrerMedicament({
               inputLabel="Filtrer Par :"
               options={optionsFiltrerPar}
               error={error !== null ? error.filtrerPar ? true : false : false}
-              textError={error !== null ? error.filtrerPar ? error.filtrerPar : "" : ""}
+              textError={error !== null ? error.filtrerPar ? error.filtrerPar : [] : []}
               value={filtrerPar}
               onChangeValue={(e) => {
                 setFiltrerPar(e.target.value);
@@ -82,7 +93,7 @@ function FormFiltrerMedicament({
               inputLabel="Type de Filtre :"
               options={optionsTypeFiltre}
               error={error !== null ? error.typeFiltre ? true : false : false}
-              textError={error !== null ? error.typeFiltre ? error.typeFiltre : "" : ""}
+              textError={error !== null ? error.typeFiltre ? error.typeFiltre : [] : []}
               value={typeFiltre}
               onChangeValue={(e) => {
                 setTypeFiltre(e.target.value);
@@ -98,6 +109,7 @@ function FormFiltrerMedicament({
               id="dateInferieurA"
               name="dateInferieurA"
               error={error !== null ? error.dateInferieurA ? true : false : false}
+              textError={error !== null ? error.dateInferieurA ? error.dateInferieurA : [] : []}
               value={dateInferieurA}
               inputLabel="Date inférieur à :"
               disabled={typeFiltre === "DATE INFERIEUR A" ? false : true}
@@ -110,6 +122,7 @@ function FormFiltrerMedicament({
               id="dateSuperieurA"
               name="dateSuperieurA"
               error={error !== null ? error.dateSuperieurA ? true : false : false}
+              textError={error !== null ? error.dateSuperieurA ? error.dateSuperieurA : [] : []}
               value={dateSuperieurA}
               inputLabel="Date supérieur à :"
               disabled={typeFiltre === "DATE SUPERIEUR A" ? false : true}
@@ -124,6 +137,7 @@ function FormFiltrerMedicament({
               id="dateEgaleA"
               name="dateEgaleA"
               error={error !== null ? error.dateEgaleA ? true : false : false}
+              textError={error !== null ? error.dateEgaleA ? error.dateEgaleA : [] : []}
               value={dateEgaleA}
               inputLabel="Date égale à :"
               disabled={typeFiltre === "DATE EGALE A" ? false : true}
@@ -137,6 +151,7 @@ function FormFiltrerMedicament({
               name="egaleA"
               placeholder="Egale à"
               error={error !== null ? error.egaleA ? true : false : false}
+              textError={error !== null ? error.egaleA ? error.egaleA : [] : []}
               value={egaleA}
               inputLabel="Egale à :"
               disabled={typeFiltre === "EGALE A" ? false : true}
@@ -152,6 +167,7 @@ function FormFiltrerMedicament({
               name="commencePar"
               placeholder="Commence Par"
               error={error !== null ? error.commencePar ? true : false : false}
+              textError={error !== null ? error.commencePar ? error.commencePar : [] : []}
               value={commencePar}
               inputLabel="Commence Par :"
               disabled={typeFiltre === "COMMENCE PAR" ? false : true}
@@ -165,6 +181,7 @@ function FormFiltrerMedicament({
               name="terminePar"
               placeholder="Termine Par"
               error={error !== null ? error.terminePar ? true : false : false}
+              textError={error !== null ? error.terminePar ? error.terminePar : [] : []}
               value={terminePar}
               inputLabel="Termine Par :"
               disabled={typeFiltre === "TERMINE PAR" ? false : true}
@@ -180,6 +197,7 @@ function FormFiltrerMedicament({
               name="inferieurA"
               placeholder="inférieur à"
               error={error !== null ? error.inferieurA ? true : false : false}
+              textError={error !== null ? error.inferieurA ? error.inferieurA : [] : []}
               value={inferieurA}
               inputLabel="Inférieur à :"
               disabled={typeFiltre === "INFERIEUR A" ? false : true}
@@ -193,6 +211,7 @@ function FormFiltrerMedicament({
               name="superieurA"
               placeholder="Superieur à"
               error={error !== null ? error.superieurA ? true : false : false}
+              textError={error !== null ? error.superieurA ? error.superieurA : [] : []}
               value={superieurA}
               inputLabel="Supérieur à :"
               disabled={typeFiltre === "SUPERIEUR A" ? false : true}

@@ -30,7 +30,7 @@ function FormTrierMedicament({
           inputLabel="Trier Par :"
           options={optionsTrierPar}
           error={error !== null ? error.trierPar ? true : false : false}
-          textError={error !== null ? error.trierPar ? error.trierPar : "" : ""}
+          textError={error !== null ? error.trierPar ? error.trierPar : [] : []}
           value={trierPar}
           onChangeValue={(e) => setTrierPar(e.target.value)}
         />
@@ -41,7 +41,7 @@ function FormTrierMedicament({
           inputLabel="Type de trie :"
           options={["ASC", "DESC"]}
           error={error !== null ? error.typeTrie ? true : false : false}
-          textError={error !== null ? error.typeTrie ? error.typeTrie : "" : ""}
+          textError={error !== null ? error.typeTrie ? error.typeTrie : [] : []}
           value={typeTrie}
           onChangeValue={(e) => setTypeTrie(e.target.value)}
         />

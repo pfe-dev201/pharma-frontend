@@ -74,7 +74,7 @@ CustomInput.propTypes = {
   isSelect: PropTypes.bool,
   disabled: PropTypes.bool,
   error: PropTypes.bool,
-  textError: PropTypes.string,
+  textError: PropTypes.array,
   options: PropTypes.array,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   onChangeValue: PropTypes.func.isRequired
