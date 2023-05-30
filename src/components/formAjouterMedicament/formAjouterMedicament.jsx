@@ -10,16 +10,44 @@ import "./formAjouterMedicamentStyle.css";
 function FormAjouterMedicament({ open, handleClose, onClickAjouter, onClickAnnuler, error }) {
   const optionsCategorie = ["CM", "HTA", "DIABETE", "LAT", "AUTRE"];
 
-  const [date, setDate] = useState();
-  const [peremption, setPeremption] = useState();
+  const getDate = () => {
+    let date = new Date();
+
+    let year = date.getFullYear();
+    let month = ("0" + (date.getMonth() + 1)).slice(-2);
+    let day = ("0" + date.getDate()).slice(-2);
+
+    let formattedDate = year + "-" + month + "-" + day;
+    return formattedDate;
+  };
+
+  const [date, setDate] = useState(getDate());
+  const [peremption, setPeremption] = useState(getDate());
   const [categorie, setCategorie] = useState("CM");
   const [autreCategorie, setAutreCategorie] = useState("");
   const [designation, setDesignation] = useState("");
   const [conditionnement, setConditionnement] = useState("");
   const [quantite, setQuantite] = useState(0);
 
+  const resetForm = () => {
+    setDate(getDate());
+    setPeremption(getDate());
+    setCategorie("CM");
+    setAutreCategorie("");
+    setDesignation("");
+    setConditionnement("");
+    setQuantite(0);
+  };
+
   return (
-    <Dialog onClose={handleClose} open={open} fullWidth>
+    <Dialog
+      onClose={() => {
+        resetForm();
+        handleClose();
+      }}
+      open={open}
+      fullWidth
+    >
       <DialogTitle>Ajouter un médicament :</DialogTitle>
       <DialogContent>
         <Grid container>
@@ -29,6 +57,7 @@ function FormAjouterMedicament({ open, handleClose, onClickAjouter, onClickAnnul
               id="date"
               name="date"
               error={error !== null ? error.date ? true : false : false}
+              textError={error !== null ? error.date ? error.date : [] : []}
               value={date}
               inputLabel="Date :"
               onChangeValue={(e) => setDate(e.target.value)}
@@ -40,6 +69,7 @@ function FormAjouterMedicament({ open, handleClose, onClickAjouter, onClickAnnul
               id="peremption"
               name="peremption"
               error={error !== null ? error.peremption ? true : false : false}
+              textError={error !== null ? error.peremption ? error.peremption : [] : []}
               value={peremption}
               inputLabel="Péremption :"
               onChangeValue={(e) => setPeremption(e.target.value)}
@@ -55,18 +85,22 @@ function FormAjouterMedicament({ open, handleClose, onClickAjouter, onClickAnnul
               inputLabel="Catégorie :"
               options={optionsCategorie}
               error={error !== null ? error.categorie ? true : false : false}
-              textError={error !== null ? error.categorie ? error.categorie : "" : ""}
+              textError={error !== null ? error.categorie ? error.categorie : [] : []}
               value={categorie}
-              onChangeValue={(e) => setCategorie(e.target.value)}
+              onChangeValue={(e) => {
+                setCategorie(e.target.value);
+                setAutreCategorie("");
+              }}
             />
           </Grid>
           <Grid item xs={6}>
             <CustomInput
               type="text"
               id="autre"
-              name="categorie"
+              name="autreCategorie"
               placeholder="Autre"
               error={error !== null ? error.autreCategorie ? true : false : false}
+              textError={error !== null ? error.autreCategorie ? error.autreCategorie : [] : []}
               value={autreCategorie}
               inputLabel="Autre :"
               disabled={categorie !== "AUTRE" ? true : false}
@@ -82,6 +116,7 @@ function FormAjouterMedicament({ open, handleClose, onClickAjouter, onClickAnnul
               name="designation"
               placeholder="Désignation"
               error={error !== null ? error.designation ? true : false : false}
+              textError={error !== null ? error.designation ? error.designation : [] : []}
               value={designation}
               inputLabel="Désignation :"
               onChangeValue={(e) => setDesignation(e.target.value.toUpperCase())}
@@ -96,7 +131,7 @@ function FormAjouterMedicament({ open, handleClose, onClickAjouter, onClickAnnul
               name="conditionnement"
               placeholder="Conditionnement"
               error={error !== null ? error.conditionnement ? true : false : false}
-              textError={error !== null ? error.conditionnement ? error.conditionnement : "" : ""}
+              textError={error !== null ? error.conditionnement ? error.conditionnement : [] : []}
               value={conditionnement}
               inputLabel="Conditionnement :"
               onChangeValue={(e) => setConditionnement(e.target.value.toUpperCase())}
@@ -109,6 +144,7 @@ function FormAjouterMedicament({ open, handleClose, onClickAjouter, onClickAnnul
               name="quantite"
               placeholder="Quantite"
               error={error !== null ? error.quantite ? true : false : false}
+              textError={error !== null ? error.quantite ? error.quantite  : [] : []}
               value={quantite}
               inputLabel="Quantite :"
               onChangeValue={(e) => setQuantite(e.target.value.toUpperCase())}
@@ -118,12 +154,26 @@ function FormAjouterMedicament({ open, handleClose, onClickAjouter, onClickAnnul
         <Grid container>
           <Grid item xs={6}></Grid>
           <Grid item xs={3}>
-            <div className="boutton" onClick={onClickAnnuler}>
+            <div
+              className="boutton"
+              onClick={() => {
+                resetForm();
+                onClickAnnuler();
+              }}
+            >
               <p>ANNULER</p>
             </div>
           </Grid>
           <Grid item xs={3}>
-            <div className="boutton" onClick={onClickAjouter}>
+            <div
+              className="boutton"
+              onClick={() => {
+                if (!error) {
+                  resetForm();
+                }
+                onClickAjouter(date, categorie, autreCategorie, conditionnement, designation, peremption, quantite);
+              }}
+            >
               <p>AJOUTER</p>
             </div>
           </Grid>

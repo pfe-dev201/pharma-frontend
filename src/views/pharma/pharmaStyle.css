@@ -16,5 +16,7 @@ body{
 }
 
 .content{
+  position: relative;
+  left: 316px;
   width: calc(100% - 316px);
 }

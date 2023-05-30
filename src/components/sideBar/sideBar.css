@@ -4,8 +4,9 @@
 }
 
 .sideBar {
+  position: fixed;
   width: 316px;
-  min-height: 100vh;
+  height: 100vh;
   background-color: #9D0F0F;
   display: flex;
   flex-direction: column;

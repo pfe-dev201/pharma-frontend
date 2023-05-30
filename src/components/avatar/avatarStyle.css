@@ -1,0 +1,24 @@
+.avatar{
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 20px;
+}
+
+.img-avatar {
+  width: 70px;
+  height: 70px;
+  border: solid 3px #A70505;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.img-avatar img{
+  width: 70px;
+  height: 70px;
+}
+
+.avatar p{
+  font-size: 24px;
+  margin: 18px;
+  padding-top: 3px;
+}
