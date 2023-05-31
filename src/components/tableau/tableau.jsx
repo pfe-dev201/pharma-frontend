@@ -20,7 +20,7 @@ function Tableau({ headers, headersData, datas, debut, fin, editerClick, supprim
               <td key={header}>{data[header]}</td>
             ))}
             <td className="action">
-              <span className="editer" onClick={() => editerClick(data.id)}>Editer</span> - <br/>
+              <span className="editer" onClick={() => editerClick(data)}>Editer</span> - <br/>
               <span className="supprimer" onClick={() => supprimerClick(data.id)}>Supprimer</span>
             </td>
           </tr>

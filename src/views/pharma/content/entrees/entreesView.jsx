@@ -6,24 +6,28 @@ import Filtrer from "../../../../components/filtrer/filtrer";
 import Trier from "../../../../components/trier/trier.jsx";
 import "./entreesStyle.css";
 import FormAjouterMedicament from "../../../../components/formAjouterMedicament/formAjouterMedicament";
+import FormModifierMedicament from "../../../../components/formAjouterMedicament/formAjouterMedicament";
 import CustomAlert from "../../../../components/customAlert/customAlert";
 import FormFiltrerMedicament from "../../../../components/formFiltrerMedicament/formFiltrerMedicament";
 import FormTrierMedicament from "../../../../components/formTrierMedicament/formTrierMedicament";
 import getEnvironnement from "../../../../environnement";
 import Pagination from "../../../../components/pagination/pagination";
-import Avatar from "../../../../components/avatar/avater";
+import Avatar from "../../../../components/avatar/avatar";
 import logo from "../../../../assets/images/pharma.png";
 
 function EntreesView() {
 
-  const [medicaments, setMedicaments] = useState([]);  
+  const [medicaments, setMedicaments] = useState([]);
+  const [modifiedMedicament, setModifiedMedicament] = useState({categorie: ""});
   const [openForm, setOpenForm] = useState(false);
+  const [openFormModifier, setOpenFormModifier] = useState(false);
   const [openFormFiltre, setOpenFormFiltre] = useState(false);
   const [openFormTrie, setOpenFormTrie] = useState(false);
   const [openAlertAdd, setOpenAlertAdd] = useState(false);
   const [openBackdrop, setOpenBackdrop] = useState(false);
   const [messageAlert, setMessageAlert] = useState("");
   const [error, setError] = useState(null);
+  const [errorModifier, setErrorModifier] = useState(null);
   const [errorFiltre, setErrorFiltre] = useState(null);
   const [errorTrie, setErrorTrie] = useState(null);
   const [numberLeft, setNumberLeft] = useState(1);
@@ -46,6 +50,11 @@ function EntreesView() {
         setImage(`${getEnvironnement().BACKEND_URL}/storage/${response.data.image_profile}`);
       });
   }, []);
+
+  useEffect(() => {
+    console.log(modifiedMedicament);
+    setOpenFormModifier(true);
+  }, [modifiedMedicament]);
 
   const onValidateFilterHandler = () => {
     setErrorFiltre({commencePar: "erreur", DateEgaleA: "erreur categorie"});
@@ -119,12 +128,48 @@ function EntreesView() {
 
   };
 
-  const OnEditHandler = () => {
+  // const OnEditHandler = (medicament) => {
+  //   setModifiedMedicament(medicament);
+  //   console.log(modifiedMedicament);
+  //   setOpenFormModifier(true);
+  // };
 
+  const OnEditHandler = (medicament) => {
+    console.log(medicament);
+    setModifiedMedicament(medicament);
   };
 
-  const onDeleteHandler = () => {
-    
+  const onDeleteHandler = (id) => {
+    setOpenBackdrop(true);
+    const url = `${getEnvironnement().API_URL}/entrees/${id}`;
+    const body = {};
+    const config = {
+      headers : {
+        "Content-Type": "application/json",
+      }
+    };
+    axios.delete(url, body, config)
+      .then((response) => {
+        if (response.data.status === "success") {
+          setTimeout(() => setOpenBackdrop(false), 800);
+          if (numberLeft === numberRight) {
+            setNumberLeft(numberLeft - 5);
+            setNumberRight(numberRight - 1);
+          }
+          if (numberRight >= response.data.medicaments.length + 1) {
+            setNumberRight(numberRight - 1);
+          }
+          setMedicaments(response.data.medicaments);
+          setMessageAlert(response.data.message);
+          setTimeout(() => setOpenAlertAdd(true), 800);
+          setTimeout(() => setOpenAlertAdd(false), 3500);
+        }
+      })
+      .catch((err) => console.log(err.response.data.message));
+  };
+
+  const onModifyHandler = () => {
+    setErrorModifier(null);
   };
 
   const pagination = (action) => {
@@ -157,6 +202,15 @@ function EntreesView() {
         onClickAnnuler={() => setOpenForm(false)}
         onClickAjouter={onAddHandler}
         error={error}
+      />
+      <FormModifierMedicament
+        open={openFormModifier}
+        handleClose={() => setOpenFormModifier(false)}
+        onClickAnnuler={() => setOpenFormModifier(false)}
+        onClickAjouter={onModifyHandler}
+        medicament={modifiedMedicament}
+        modifier
+        error={errorModifier}
       />
       <FormFiltrerMedicament
         open={openFormFiltre}
