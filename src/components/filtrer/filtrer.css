@@ -4,6 +4,10 @@
   width: 120px;
 }
 
+.active-filtre svg path{
+  stroke: #A70505;
+}
+
 .filtrer:hover{
   cursor: pointer;
   color: #A70505;

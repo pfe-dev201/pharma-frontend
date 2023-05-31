@@ -6,24 +6,29 @@ import Filtrer from "../../../../components/filtrer/filtrer";
 import Trier from "../../../../components/trier/trier.jsx";
 import "./entreesStyle.css";
 import FormAjouterMedicament from "../../../../components/formAjouterMedicament/formAjouterMedicament";
+import FormModifierMedicament from "../../../../components/formAjouterMedicament/formAjouterMedicament";
 import CustomAlert from "../../../../components/customAlert/customAlert";
 import FormFiltrerMedicament from "../../../../components/formFiltrerMedicament/formFiltrerMedicament";
 import FormTrierMedicament from "../../../../components/formTrierMedicament/formTrierMedicament";
 import getEnvironnement from "../../../../environnement";
 import Pagination from "../../../../components/pagination/pagination";
-import Avatar from "../../../../components/avatar/avater";
+import Avatar from "../../../../components/avatar/avatar";
 import logo from "../../../../assets/images/pharma.png";
 
 function EntreesView() {
 
-  const [medicaments, setMedicaments] = useState([]);  
+  const [medicaments, setMedicaments] = useState([]);
+  const [modifiedMedicament, setModifiedMedicament] = useState({});
+  const [isModifierMedicament, setIsModifierMedicament] = useState(false);
   const [openForm, setOpenForm] = useState(false);
+  const [openFormModifier, setOpenFormModifier] = useState(false);
   const [openFormFiltre, setOpenFormFiltre] = useState(false);
   const [openFormTrie, setOpenFormTrie] = useState(false);
   const [openAlertAdd, setOpenAlertAdd] = useState(false);
   const [openBackdrop, setOpenBackdrop] = useState(false);
   const [messageAlert, setMessageAlert] = useState("");
   const [error, setError] = useState(null);
+  const [errorModifier, setErrorModifier] = useState(null);
   const [errorFiltre, setErrorFiltre] = useState(null);
   const [errorTrie, setErrorTrie] = useState(null);
   const [numberLeft, setNumberLeft] = useState(1);
@@ -33,10 +38,46 @@ function EntreesView() {
   const [nom, setNom] = useState("admin");
   const [prenom, setPrenom] = useState("admin");
 
+  const [filtrerParConfig, setFiltrerParConfig] = useState();
+  const [typeFiltreConfig, setTypeFiltreConfig] = useState();
+  const [dateSuperieurAConfig, setDateSuperieurAConfig] = useState();
+  const [dateInferieurAConfig, setDateInferieurAConfig] = useState();
+  const [dateEgaleAConfig, setDateEgaleAConfig] = useState();
+  const [egaleAConfig, setEgaleAConfig] = useState();
+  const [commenceParConfig, setCommenceParConfig] = useState();
+  const [termineParConfig, setTermineParConfig] = useState();
+  const [inferieurAConfig, setInferieurAConfig] = useState();
+  const [superieurAConfig, setSuperieurAConfig] = useState();
+  const [trierParConfig, setTrierParConfig] = useState("DATE");
+  const [typeTrieConfig, setTypeTrieConfig] = useState("ASC");
+  const [isFiltre, setIsFiltre] = useState(false);
+  const [isTrie, setIsTrie] = useState(false);
+  const [clearFiltre, setClearFiltre] = useState(false);
+  const [clearTrie, setClearTrie] = useState(false);
+
   useEffect(() => {
     axios.get(`${getEnvironnement().API_URL}/entrees`)
       .then((response) => setMedicaments(response.data));
   }, []);
+
+  useEffect(() => {
+    if (!isTrie && !isFiltre) {
+      axios.get(`${getEnvironnement().API_URL}/entrees`)
+        .then((response) => setMedicaments(response.data));
+    } else if (!isFiltre) {
+      onValidateTrierHandler(trierParConfig, typeTrieConfig);
+    } else if (!isTrie) {
+      onValidateFilterHandler(filtrerParConfig, typeFiltreConfig, dateSuperieurAConfig, dateInferieurAConfig, dateEgaleAConfig, egaleAConfig, commenceParConfig, termineParConfig, inferieurAConfig, superieurAConfig);
+    }
+    if (clearTrie && clearFiltre) {
+      setClearTrie(false);
+      setClearFiltre(false);
+    } else if (clearFiltre) {
+      setClearFiltre(false);
+    } else if (clearTrie) {
+      setClearTrie(false);
+    }
+  }, [clearFiltre, clearTrie]);
 
   useEffect(() => {
     axios.get(`${getEnvironnement().API_URL}/users/1`)
@@ -47,30 +88,127 @@ function EntreesView() {
       });
   }, []);
 
-  const onValidateFilterHandler = () => {
-    setErrorFiltre({commencePar: "erreur", DateEgaleA: "erreur categorie"});
-    setMessageAlert("le filtre a bien été modifié");
-    setOpenAlertAdd(true);
-    setOpenFormFiltre(false);
+  useEffect(() => {
+    if (isModifierMedicament) {
+      setOpenFormModifier(true);
+      setIsModifierMedicament(false);
+    }
+  }, [isModifierMedicament, modifiedMedicament]);
+
+  const onValidateFilterHandler = (filtrerPar, typeFiltre, dateSuperieurA, dateInferieurA, dateEgaleA, egaleA, commencePar, terminePar, inferieurA, superieurA) => {
+    setOpenBackdrop(true);
+    
+    const url = `${getEnvironnement().API_URL}/entrees/filtre`;
+    let body = {
+      filtrerPar, typeFiltre, dateSuperieurA, dateInferieurA, dateEgaleA, egaleA, commencePar, terminePar, inferieurA, superieurA
+    };
+    if (isTrie) {
+      body = {
+        medicaments, filtrerPar, typeFiltre, dateSuperieurA, dateInferieurA, dateEgaleA, egaleA, commencePar, terminePar, inferieurA, superieurA
+      };
+    }
+    const config = {
+      headers : {
+        "Content-Type": "application/json",
+      }
+    };
+
+    axios.post(url, body, config)
+      .then((response) => {
+        if (response.data.status === "success") {
+          setFiltrerParConfig(filtrerPar);
+          setTypeFiltreConfig(typeFiltre);
+          setDateSuperieurAConfig(dateSuperieurA);
+          setDateInferieurAConfig(dateInferieurA);
+          setDateEgaleAConfig(dateEgaleA);
+          setEgaleAConfig(egaleA);
+          setCommenceParConfig(commencePar);
+          setTermineParConfig(terminePar);
+          setInferieurAConfig(inferieurA);
+          setSuperieurAConfig(superieurA);
+          const tableauMedicaments = Object.keys(response.data.medicaments).map(key => response.data.medicaments[key]);
+          setMedicaments(tableauMedicaments);
+          setIsFiltre(true);
+          setNumberLeft(1);
+          setNumberRight(5);
+          setTimeout(() => setOpenBackdrop(false), 800);
+          setMessageAlert(response.data.message);
+          setTimeout(() => setOpenAlertAdd(true), 800);
+          setTimeout(() => setOpenAlertAdd(false), 3500);
+          setOpenFormFiltre(false);
+        } else if (response.data.status === "error") {
+          setErrorFiltre(response.data.error);
+          setOpenBackdrop(false);
+          setOpenFormFiltre(true);
+        }
+      });
   };
 
   const onDeleteFilterHandler = () => {
-    setMessageAlert("le filtre a bien été supprimé");
-    setOpenAlertAdd(true);
     setOpenFormFiltre(false);
+    setOpenBackdrop(true);
+    setClearFiltre(true);
+    setIsFiltre(false);
+    setNumberLeft(1);
+    setNumberRight(5);
+    setTimeout(() => setOpenBackdrop(false), 800);
+    setMessageAlert("le filtre a bien été supprimé");
+    setTimeout(() => setOpenAlertAdd(true), 800);
+    setTimeout(() => setOpenAlertAdd(false), 3500);
   };
 
-  const onValidateTrierHandler = () => {
-    setErrorTrie({commencePar: "erreur", DateEgaleA: "erreur categorie"});
-    setMessageAlert("le trie a bien été modifié");
-    setOpenAlertAdd(true);
-    setOpenFormTrie(false);
+  const onValidateTrierHandler = (trierPar, typeTrie) => {
+    setOpenBackdrop(true);
+    
+    const url = `${getEnvironnement().API_URL}/entrees/trie`;
+    let body = {
+      trierPar, typeTrie
+    };
+    if (isFiltre) {
+      body = {
+        medicaments, trierPar, typeTrie
+      };
+    }
+    const config = {
+      headers : {
+        "Content-Type": "application/json",
+      }
+    };
+
+    axios.post(url, body, config)
+      .then((response) => {
+        if (response.data.status === "success") {
+          setTrierParConfig(trierPar);
+          setTypeTrieConfig(typeTrie);
+          const tableauMedicaments = Object.keys(response.data.medicaments).map(key => response.data.medicaments[key]);
+          if (typeTrie === "ASC") {
+            setMedicaments(tableauMedicaments);
+          } else if (typeTrie === "DESC") {
+            setMedicaments(tableauMedicaments.reverse());
+          }
+          setIsTrie(true);
+          setTimeout(() => setOpenBackdrop(false), 800);
+          setMessageAlert(response.data.message);
+          setTimeout(() => setOpenAlertAdd(true), 800);
+          setTimeout(() => setOpenAlertAdd(false), 3500);
+          setOpenFormTrie(false);
+        } else if (response.data.status === "error") {
+          setErrorTrie(response.data.error);
+          setOpenBackdrop(false);
+          setOpenFormTrie(true);
+        }
+      });
   };
 
   const onDeleteTrierHandler = () => {
-    setMessageAlert("le trie a bien été supprimé");
-    setOpenAlertAdd(true);
     setOpenFormTrie(false);
+    setOpenBackdrop(true);
+    setClearTrie(true);
+    setIsTrie(false);
+    setTimeout(() => setOpenBackdrop(false), 800);
+    setMessageAlert("le trie a bien été supprimé");
+    setTimeout(() => setOpenAlertAdd(true), 800);
+    setTimeout(() => setOpenAlertAdd(false), 3500);
   };
 
   const onAddHandler = (date, categorie, autreCategorie, conditionnement, designation, peremption, quantite) => {
@@ -97,6 +235,10 @@ function EntreesView() {
     axios.post(url, body, config)
       .then((response) => {
         if (response.data.status === "success") {
+          setClearTrie(true);
+          setClearFiltre(true);
+          setIsTrie(false);
+          setIsFiltre(false);
           setMedicaments(response.data.medicaments);
           if (response.data.medicaments.length % 5 === 0) {
             setNumberLeft(response.data.medicaments.length - 4);
@@ -105,7 +247,7 @@ function EntreesView() {
           }
           setNumberRight(response.data.medicaments.length);
           setTimeout(() => setOpenBackdrop(false), 800);
-          setMessageAlert("le médicament a bien été ajouté");
+          setMessageAlert(response.data.message);
           setTimeout(() => setOpenAlertAdd(true), 800);
           setTimeout(() => setOpenAlertAdd(false), 3500);
 
@@ -119,12 +261,80 @@ function EntreesView() {
 
   };
 
-  const OnEditHandler = () => {
-
+  const OnEditHandler = (medicament) => {
+    setErrorModifier(null);
+    setModifiedMedicament(medicament);
+    setIsModifierMedicament(true);
   };
 
-  const onDeleteHandler = () => {
-    
+  const onDeleteHandler = (id) => {
+    setOpenBackdrop(true);
+    const url = `${getEnvironnement().API_URL}/entrees/${id}`;
+    const body = {};
+    const config = {
+      headers : {
+        "Content-Type": "application/json",
+      }
+    };
+    axios.delete(url, body, config)
+      .then((response) => {
+        if (response.data.status === "success") {
+          setTimeout(() => setOpenBackdrop(false), 800);
+          if (numberRight === 5 && response.data.medicaments.length < 5) {
+            setNumberRight(response.data.medicaments.length);
+          } else if (numberRight >= response.data.medicaments.length + 1) {
+            setNumberRight(numberRight - 1);
+          }
+          if (numberLeft === numberRight && numberRight !== 1) {
+            setNumberLeft(numberLeft - 5);
+            setNumberRight(numberRight - 1);
+          }
+          setMedicaments(response.data.medicaments);
+          setMessageAlert(response.data.message);
+          setTimeout(() => setOpenAlertAdd(true), 800);
+          setTimeout(() => setOpenAlertAdd(false), 3500);
+        }
+      })
+      .catch((err) => console.log(err.response.data.message));
+  };
+
+  const onModifyHandler = (id, date, categorie, autreCategorie, conditionnement, designation, peremption, quantite) => {
+    setOpenBackdrop(true);
+    setOpenFormModifier(false);
+    const url = `${getEnvironnement().API_URL}/entrees/${id}`;
+    let categorie_input = categorie;
+    if (categorie === "AUTRE") {
+      categorie_input = autreCategorie;
+    }
+    const body = {
+      date,
+      categorie: categorie_input,
+      conditionnement,
+      designation,
+      peremption,
+      quantite
+    };
+    const config = {
+      headers : {
+        "Content-Type": "application/json",
+      }
+    };
+    axios.put(url, body, config)
+      .then((response) => {
+        if (response.data.status === "success") {
+          setMedicaments(response.data.medicaments);
+          setTimeout(() => setOpenBackdrop(false), 800);
+          setMessageAlert(response.data.message);
+          setTimeout(() => setOpenAlertAdd(true), 800);
+          setTimeout(() => setOpenAlertAdd(false), 3500);
+
+        } else if (response.data.status === "error") {
+          setErrorModifier(response.data.error);
+          setOpenBackdrop(false);
+          setOpenFormModifier(true);
+        }
+      })
+      .catch((err) => console.log(err.response.data.message));
   };
 
   const pagination = (action) => {
@@ -158,6 +368,15 @@ function EntreesView() {
         onClickAjouter={onAddHandler}
         error={error}
       />
+      <FormModifierMedicament
+        open={openFormModifier}
+        handleClose={() => setOpenFormModifier(false)}
+        onClickAnnuler={() => setOpenFormModifier(false)}
+        onClickModifier={onModifyHandler}
+        medicament={modifiedMedicament === null ? {} : modifiedMedicament}
+        modifier
+        error={errorModifier}
+      />
       <FormFiltrerMedicament
         open={openFormFiltre}
         handleClose={() => setOpenFormFiltre(false)}
@@ -190,8 +409,20 @@ function EntreesView() {
           <p>AJOUTER UN MEDICAMENT</p>
         </div>
         <div className="filtrer-trier">
-          <Trier onClickTrier={() => setOpenFormTrie(true)}/>
-          <Filtrer onClickFiltrer={() => setOpenFormFiltre(true)}/>
+          <Trier
+            active={isTrie ? true : false}
+            onClickTrier={() => {
+              setOpenFormTrie(true);
+              setErrorTrie(null);
+            }}
+          />
+          <Filtrer
+            active={isFiltre ? true : false}
+            onClickFiltrer={() => {
+              setOpenFormFiltre(true);
+              setErrorFiltre(null);
+            }}
+          />
         </div>
       </div>
 

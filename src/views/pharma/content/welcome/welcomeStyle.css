@@ -1,0 +1,37 @@
+.Welcome{
+  height: 100vh;
+  background-color: #9D0F0F;
+  margin-left: 3px;
+  display: flex;
+  flex-direction: column;
+}
+
+.bienvenu-text{
+  color: white;
+  font-size: 58px;
+  text-align: center;
+  margin-top: 80px;
+  margin-bottom: 50px;
+}
+
+.bg-imgLogo{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  width: 205px;
+  height: 205px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.logoBienvenu{
+  width: 97px;
+  height: 110px;
+}
+
+.logoNameBienvenu{
+  color: #DA1C1C;
+  font-size: 32px;
+}

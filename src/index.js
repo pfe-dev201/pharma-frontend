@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LoginView from "./views/login/loginView";
 import PharmaView from "./views/pharma/pharmaView";
 import EntreesView from "./views/pharma/content/entrees/entreesView";
+import Welcome from "./views/pharma/content/welcome/welcome";
 
 const router = createBrowserRouter([
   {
@@ -14,6 +15,10 @@ const router = createBrowserRouter([
     path: "pharma",
     element: <PharmaView />,
     children: [
+      { 
+        index: true,
+        element: <Welcome /> 
+      },
       {
         path: "rapport",
         element: <LoginView />,
