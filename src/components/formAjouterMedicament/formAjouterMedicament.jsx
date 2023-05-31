@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import DialogTitle from "@mui/material/DialogTitle";
 import Dialog from "@mui/material/Dialog";
@@ -7,7 +7,7 @@ import CustomInput from "../customInput/customInput";
 import "./formAjouterMedicamentStyle.css";
 
 
-function FormAjouterMedicament({ open, handleClose, onClickAjouter, onClickAnnuler, error }) {
+function FormAjouterMedicament({ open, handleClose, onClickAjouter, onClickAnnuler, error, modifier, medicament }) {
   const optionsCategorie = ["CM", "HTA", "DIABETE", "LAT", "AUTRE"];
 
   const getDate = () => {
@@ -29,6 +29,18 @@ function FormAjouterMedicament({ open, handleClose, onClickAjouter, onClickAnnul
   const [conditionnement, setConditionnement] = useState("");
   const [quantite, setQuantite] = useState(0);
 
+  useEffect(() => {
+    if (modifier) {
+      console.log(medicament.categorie);
+      setDate(medicament.date);
+      setPeremption(medicament.peremption);
+      setAutreCategorie(medicament.categorie);
+      setDesignation(medicament.designation);
+      setConditionnement(medicament.conditionnement);
+      setQuantite(medicament.quantite);
+    }
+  }, []);
+  /*
   const resetForm = () => {
     setDate(getDate());
     setPeremption(getDate());
@@ -38,17 +50,18 @@ function FormAjouterMedicament({ open, handleClose, onClickAjouter, onClickAnnul
     setConditionnement("");
     setQuantite(0);
   };
+  */
 
   return (
     <Dialog
       onClose={() => {
-        resetForm();
+        //resetForm();
         handleClose();
       }}
       open={open}
       fullWidth
     >
-      <DialogTitle>Ajouter un médicament :</DialogTitle>
+      <DialogTitle>{modifier ? "Modifier " : "Ajouter "} un médicament :</DialogTitle>
       <DialogContent>
         <Grid container>
           <Grid item xs={6}>
@@ -157,7 +170,7 @@ function FormAjouterMedicament({ open, handleClose, onClickAjouter, onClickAnnul
             <div
               className="boutton"
               onClick={() => {
-                resetForm();
+                //resetForm();
                 onClickAnnuler();
               }}
             >
@@ -169,12 +182,12 @@ function FormAjouterMedicament({ open, handleClose, onClickAjouter, onClickAnnul
               className="boutton"
               onClick={() => {
                 if (!error) {
-                  resetForm();
+                  //resetForm();
                 }
                 onClickAjouter(date, categorie, autreCategorie, conditionnement, designation, peremption, quantite);
               }}
             >
-              <p>AJOUTER</p>
+              <p>{modifier ? "MODIFIER" : "AJOUTER"}</p>
             </div>
           </Grid>
         </Grid>
@@ -189,6 +202,8 @@ FormAjouterMedicament.propTypes = {
   onClickAjouter: PropTypes.func.isRequired,
   onClickAnnuler: PropTypes.func.isRequired,
   error: PropTypes.object,
+  modifier: PropTypes.bool,
+  medicament: PropTypes.object
 };
 
 export default FormAjouterMedicament;
