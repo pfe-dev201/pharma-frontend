@@ -36,7 +36,7 @@ function SideBar () {
           <span className="link-title">Réglages</span>
         </NavLink>
       </div>
-      <Link className="link deconnexion" to="rapport">
+      <Link className="link deconnexion" to="/">
         <span className="link-title">Déconnexion</span>
       </Link>
     </div>
