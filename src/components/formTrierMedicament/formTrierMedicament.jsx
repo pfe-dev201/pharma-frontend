@@ -57,7 +57,7 @@ function FormTrierMedicament({
             </div>
           </Grid>
           <Grid item xs={3}>
-            <div className="boutton" onClick={onClickValider}>
+            <div className="boutton" onClick={() => onClickValider(trierPar, typeTrie)}>
               <p>VALIDER</p>
             </div>
           </Grid>

@@ -5,6 +5,10 @@
   margin-left: 30px;
 }
 
+.active-trie svg path{
+  fill: #A70505;
+}
+
 .trier:hover{
   cursor: pointer;
   color: #A70505;

@@ -7,7 +7,7 @@ import CustomInput from "../customInput/customInput";
 import "./formAjouterMedicamentStyle.css";
 
 
-function FormAjouterMedicament({ open, handleClose, onClickAjouter, onClickAnnuler, error, modifier, medicament }) {
+function FormAjouterMedicament({ open, handleClose, onClickAjouter, onClickModifier, onClickAnnuler, error, modifier, medicament }) {
   const optionsCategorie = ["CM", "HTA", "DIABETE", "LAT", "AUTRE"];
 
   const getDate = () => {
@@ -21,41 +21,50 @@ function FormAjouterMedicament({ open, handleClose, onClickAjouter, onClickAnnul
     return formattedDate;
   };
 
-  const [date, setDate] = useState(getDate());
-  const [peremption, setPeremption] = useState(getDate());
-  const [categorie, setCategorie] = useState("CM");
-  const [autreCategorie, setAutreCategorie] = useState("");
-  const [designation, setDesignation] = useState("");
-  const [conditionnement, setConditionnement] = useState("");
-  const [quantite, setQuantite] = useState(0);
+  const [date, setDate] = useState(modifier ? medicament.date : getDate());
+  const [peremption, setPeremption] = useState(modifier ? medicament.peremption : getDate());
+  const [categorie, setCategorie] = useState(modifier ? "AUTRE" : "CM");
+  const [autreCategorie, setAutreCategorie] = useState(modifier ? medicament.categorie : "");
+  const [designation, setDesignation] = useState(modifier ? medicament.designation : "");
+  const [conditionnement, setConditionnement] = useState(modifier ? medicament.conditionnement : "");
+  const [quantite, setQuantite] = useState(modifier ? medicament.quantite : 0);
 
   useEffect(() => {
     if (modifier) {
-      console.log(medicament.categorie);
       setDate(medicament.date);
       setPeremption(medicament.peremption);
+      setCategorie("AUTRE");
       setAutreCategorie(medicament.categorie);
       setDesignation(medicament.designation);
       setConditionnement(medicament.conditionnement);
       setQuantite(medicament.quantite);
     }
-  }, []);
-  /*
+  }, [medicament]);
+
   const resetForm = () => {
-    setDate(getDate());
-    setPeremption(getDate());
-    setCategorie("CM");
-    setAutreCategorie("");
-    setDesignation("");
-    setConditionnement("");
-    setQuantite(0);
+    if (modifier) {
+      setDate(medicament.date);
+      setPeremption(medicament.peremption);
+      setCategorie("AUTRE");
+      setAutreCategorie(medicament.categorie);
+      setDesignation(medicament.designation);
+      setConditionnement(medicament.conditionnement);
+      setQuantite(medicament.quantite);
+    } else {
+      setDate(getDate());
+      setPeremption(getDate());
+      setCategorie("CM");
+      setAutreCategorie("");
+      setDesignation("");
+      setConditionnement("");
+      setQuantite(0);
+    }
   };
-  */
 
   return (
     <Dialog
       onClose={() => {
-        //resetForm();
+        resetForm();
         handleClose();
       }}
       open={open}
@@ -170,7 +179,7 @@ function FormAjouterMedicament({ open, handleClose, onClickAjouter, onClickAnnul
             <div
               className="boutton"
               onClick={() => {
-                //resetForm();
+                resetForm();
                 onClickAnnuler();
               }}
             >
@@ -182,9 +191,13 @@ function FormAjouterMedicament({ open, handleClose, onClickAjouter, onClickAnnul
               className="boutton"
               onClick={() => {
                 if (!error) {
-                  //resetForm();
+                  resetForm();
                 }
-                onClickAjouter(date, categorie, autreCategorie, conditionnement, designation, peremption, quantite);
+                if (modifier) {
+                  onClickModifier(medicament.id, date, categorie, autreCategorie, conditionnement, designation, peremption, quantite);
+                } else {
+                  onClickAjouter(date, categorie, autreCategorie, conditionnement, designation, peremption, quantite);
+                }
               }}
             >
               <p>{modifier ? "MODIFIER" : "AJOUTER"}</p>
@@ -199,7 +212,8 @@ function FormAjouterMedicament({ open, handleClose, onClickAjouter, onClickAnnul
 FormAjouterMedicament.propTypes = {
   open: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
-  onClickAjouter: PropTypes.func.isRequired,
+  onClickAjouter: PropTypes.func,
+  onClickModifier: PropTypes.func,
   onClickAnnuler: PropTypes.func.isRequired,
   error: PropTypes.object,
   modifier: PropTypes.bool,

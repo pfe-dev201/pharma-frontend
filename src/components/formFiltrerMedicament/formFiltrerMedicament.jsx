@@ -231,7 +231,7 @@ function FormFiltrerMedicament({
             </div>
           </Grid>
           <Grid item xs={3}>
-            <div className="boutton" onClick={onClickValider}>
+            <div className="boutton" onClick={() => onClickValider(filtrerPar, typeFiltre, dateSuperieurA, dateInferieurA, dateEgaleA, egaleA, commencePar, terminePar, inferieurA, superieurA)}>
               <p>VALIDER</p>
             </div>
           </Grid>
