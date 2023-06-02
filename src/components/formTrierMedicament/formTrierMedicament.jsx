@@ -8,13 +8,13 @@ import "./formTrierMedicamentStyle.css";
 
 function FormTrierMedicament({
   open,
+  optionsTrierPar,
   handleClose,
   onClickValider,
   onClickAnnuler,
   onClickDeleteTrie,
   error
 }) {
-  const optionsTrierPar = ["DATE", "PEREMPTION", "CATEGORIE", "DESIGNATION", "CONDITIONNEMENT", "QUANTITE"];
 
   const [trierPar, setTrierPar] = useState("DATE");
   const [typeTrie, setTypeTrie] = useState("ASC");
@@ -69,6 +69,7 @@ function FormTrierMedicament({
 
 FormTrierMedicament.propTypes = {
   open: PropTypes.bool.isRequired,
+  optionsTrierPar: PropTypes.array.isRequired,
   handleClose: PropTypes.func.isRequired,
   onClickValider: PropTypes.func.isRequired,
   onClickAnnuler: PropTypes.func.isRequired,

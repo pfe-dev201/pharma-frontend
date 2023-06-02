@@ -8,13 +8,13 @@ import "./formFiltrerMedicamentStyle.css";
 
 function FormFiltrerMedicament({
   open,
+  optionsFiltrerPar,
   handleClose,
   onClickValider,
   onClickAnnuler,
   onClickDeleteFiltre,
   error
 }) {
-  const optionsFiltrerPar = ["DATE", "PEREMPTION", "CATEGORIE", "DESIGNATION", "CONDITIONNEMENT", "QUANTITE"];
   const [optionsTypeFiltre, setOptionsTypeFiltre] = useState(["DATE EGALE A", "DATE INFERIEUR A", "DATE SUPERIEUR A"]);
 
   const getDate = () => {
@@ -243,6 +243,7 @@ function FormFiltrerMedicament({
 
 FormFiltrerMedicament.propTypes = {
   open: PropTypes.bool.isRequired,
+  optionsFiltrerPar: PropTypes.array.isRequired,
   handleClose: PropTypes.func.isRequired,
   onClickValider: PropTypes.func.isRequired,
   onClickAnnuler: PropTypes.func.isRequired,

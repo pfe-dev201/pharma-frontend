@@ -5,6 +5,7 @@ import LoginView from "./views/login/loginView";
 import PharmaView from "./views/pharma/pharmaView";
 import EntreesView from "./views/pharma/content/entrees/entreesView";
 import Welcome from "./views/pharma/content/welcome/welcome";
+import SortiesView from "./views/pharma/content/sorties/sortiesView";
 
 const router = createBrowserRouter([
   {
@@ -29,7 +30,7 @@ const router = createBrowserRouter([
       },
       {
         path: "sorties",
-        element: <LoginView />,
+        element: <SortiesView />,
       },
       {
         path: "stock",
