@@ -4,9 +4,9 @@ import axios from "axios";
 import Tableau from "../../../../components/tableau/tableau";
 import Filtrer from "../../../../components/filtrer/filtrer";
 import Trier from "../../../../components/trier/trier.jsx";
-import "./entreesStyle.css";
-import FormAjouterMedicament from "../../../../components/formAjouterMedicament/formAjouterMedicament";
-import FormModifierMedicament from "../../../../components/formAjouterMedicament/formAjouterMedicament";
+import "./sortiesStyle.css";
+import FormAjouterMedicamentSortie from "../../../../components/formAjouterMedicamentSortie/formAjouterMedicamentSortie";
+import FormModifierMedicamentSortie from "../../../../components/formAjouterMedicamentSortie/formAjouterMedicamentSortie";
 import CustomAlert from "../../../../components/customAlert/customAlert";
 import FormFiltrerMedicament from "../../../../components/formFiltrerMedicament/formFiltrerMedicament";
 import FormTrierMedicament from "../../../../components/formTrierMedicament/formTrierMedicament";
@@ -15,7 +15,7 @@ import Pagination from "../../../../components/pagination/pagination";
 import Avatar from "../../../../components/avatar/avatar";
 import logo from "../../../../assets/images/pharma.png";
 
-function EntreesView() {
+function SortiesView() {
 
   const [medicaments, setMedicaments] = useState([]);
   const [modifiedMedicament, setModifiedMedicament] = useState({});
@@ -56,13 +56,13 @@ function EntreesView() {
   const [clearTrie, setClearTrie] = useState(false);
 
   useEffect(() => {
-    axios.get(`${getEnvironnement().API_URL}/entrees`)
+    axios.get(`${getEnvironnement().API_URL}/sorties`)
       .then((response) => setMedicaments(response.data));
   }, []);
 
   useEffect(() => {
     if (!isTrie && !isFiltre) {
-      axios.get(`${getEnvironnement().API_URL}/entrees`)
+      axios.get(`${getEnvironnement().API_URL}/sorties`)
         .then((response) => setMedicaments(response.data));
     } else if (!isFiltre) {
       onValidateTrierHandler(trierParConfig, typeTrieConfig);
@@ -98,7 +98,7 @@ function EntreesView() {
   const onValidateFilterHandler = (filtrerPar, typeFiltre, dateSuperieurA, dateInferieurA, dateEgaleA, egaleA, commencePar, terminePar, inferieurA, superieurA) => {
     setOpenBackdrop(true);
     
-    const url = `${getEnvironnement().API_URL}/entrees/filtre`;
+    const url = `${getEnvironnement().API_URL}/sorties/filtre`;
     let body = {
       filtrerPar, typeFiltre, dateSuperieurA, dateInferieurA, dateEgaleA, egaleA, commencePar, terminePar, inferieurA, superieurA
     };
@@ -160,7 +160,7 @@ function EntreesView() {
   const onValidateTrierHandler = (trierPar, typeTrie) => {
     setOpenBackdrop(true);
     
-    const url = `${getEnvironnement().API_URL}/entrees/trie`;
+    const url = `${getEnvironnement().API_URL}/sorties/trie`;
     let body = {
       trierPar, typeTrie
     };
@@ -211,10 +211,10 @@ function EntreesView() {
     setTimeout(() => setOpenAlertAdd(false), 3500);
   };
 
-  const onAddHandler = (date, categorie, autreCategorie, conditionnement, designation, peremption, quantite) => {
+  const onAddHandler = (date, categorie, autreCategorie, designation, quantite) => {
     setOpenBackdrop(true);
     setOpenForm(false);
-    const url = `${getEnvironnement().API_URL}/entrees`;
+    const url = `${getEnvironnement().API_URL}/sorties`;
     let categorie_input = categorie;
     if (categorie === "AUTRE") {
       categorie_input = autreCategorie;
@@ -222,9 +222,7 @@ function EntreesView() {
     const body = {
       date,
       categorie: categorie_input,
-      conditionnement,
       designation,
-      peremption,
       quantite
     };
     const config = {
@@ -269,7 +267,7 @@ function EntreesView() {
 
   const onDeleteHandler = (id) => {
     setOpenBackdrop(true);
-    const url = `${getEnvironnement().API_URL}/entrees/${id}`;
+    const url = `${getEnvironnement().API_URL}/sorties/${id}`;
     const body = {};
     const config = {
       headers : {
@@ -298,10 +296,10 @@ function EntreesView() {
       .catch((err) => console.log(err.response.data.message));
   };
 
-  const onModifyHandler = (id, date, categorie, autreCategorie, conditionnement, designation, peremption, quantite) => {
+  const onModifyHandler = (id, date, categorie, autreCategorie, designation, quantite) => {
     setOpenBackdrop(true);
     setOpenFormModifier(false);
-    const url = `${getEnvironnement().API_URL}/entrees/${id}`;
+    const url = `${getEnvironnement().API_URL}/sorties/${id}`;
     let categorie_input = categorie;
     if (categorie === "AUTRE") {
       categorie_input = autreCategorie;
@@ -309,9 +307,7 @@ function EntreesView() {
     const body = {
       date,
       categorie: categorie_input,
-      conditionnement,
       designation,
-      peremption,
       quantite
     };
     const config = {
@@ -361,14 +357,14 @@ function EntreesView() {
       >
         <CircularProgress color="inherit" />
       </Backdrop>
-      <FormAjouterMedicament
+      <FormAjouterMedicamentSortie
         open={openForm}
         handleClose={() => setOpenForm(false)}
         onClickAnnuler={() => setOpenForm(false)}
         onClickAjouter={onAddHandler}
         error={error}
       />
-      <FormModifierMedicament
+      <FormModifierMedicamentSortie
         open={openFormModifier}
         handleClose={() => setOpenFormModifier(false)}
         onClickAnnuler={() => setOpenFormModifier(false)}
@@ -379,7 +375,7 @@ function EntreesView() {
       />
       <FormFiltrerMedicament
         open={openFormFiltre}
-        optionsFiltrerPar={["DATE", "PEREMPTION", "CATEGORIE", "DESIGNATION", "CONDITIONNEMENT", "QUANTITE"]}
+        optionsFiltrerPar={["DATE", "CATEGORIE", "DESIGNATION", "QUANTITE"]}
         handleClose={() => setOpenFormFiltre(false)}
         onClickAnnuler={() => setOpenFormFiltre(false)}
         onClickValider={onValidateFilterHandler}
@@ -388,7 +384,7 @@ function EntreesView() {
       />
       <FormTrierMedicament
         open={openFormTrie}
-        optionsTrierPar={["DATE", "PEREMPTION", "CATEGORIE", "DESIGNATION", "CONDITIONNEMENT", "QUANTITE"]}
+        optionsTrierPar={["DATE", "CATEGORIE", "DESIGNATION", "QUANTITE"]}
         handleClose={() => setOpenFormTrie(false)}
         onClickAnnuler={() => setOpenFormTrie(false)}
         onClickValider={onValidateTrierHandler}
@@ -430,8 +426,8 @@ function EntreesView() {
 
       <div className="table-medicament">
         <Tableau 
-          headers={["Date", "Catégorie", "Conditionnement", "Désignation", "Péremption", "Quantité"]}
-          headersData={["date", "categorie", "conditionnement", "designation", "peremption", "quantite"]}
+          headers={["Date", "Catégorie", "Désignation", "Quantité"]}
+          headersData={["date", "categorie", "designation", "quantite"]}
           datas={medicaments}
           debut={numberLeft}
           fin={numberRight}
@@ -453,4 +449,4 @@ function EntreesView() {
   );
 }
 
-export default EntreesView;
+export default SortiesView;
