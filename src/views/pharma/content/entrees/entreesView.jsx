@@ -8,12 +8,14 @@ import "./entreesStyle.css";
 import FormAjouterMedicament from "../../../../components/formAjouterMedicament/formAjouterMedicament";
 import FormModifierMedicament from "../../../../components/formAjouterMedicament/formAjouterMedicament";
 import CustomAlert from "../../../../components/customAlert/customAlert";
-import FormFiltrerMedicament from "../../../../components/formFiltrerMedicament/formFiltrerMedicament";
-import FormTrierMedicament from "../../../../components/formTrierMedicament/formTrierMedicament";
+import FormFiltrerMedicament from "../../../../components/formFiltrer/formFiltrer";
+import FormTrierMedicament from "../../../../components/formTrier/formTrier";
 import getEnvironnement from "../../../../environnement";
 import Pagination from "../../../../components/pagination/pagination";
 import Avatar from "../../../../components/avatar/avatar";
 import logo from "../../../../assets/images/pharma.png";
+import { useSelector } from "react-redux";
+import { userSelector } from "../../../../store/userSlice";
 
 function EntreesView() {
 
@@ -35,8 +37,8 @@ function EntreesView() {
   const [numberRight, setNumberRight] = useState(5);
  
   const [image, setImage] = useState(`${getEnvironnement().BACKEND_URL}/storage/default-profile.jpg`);
-  const [nom, setNom] = useState("admin");
-  const [prenom, setPrenom] = useState("admin");
+  const [nom, setNom] = useState("");
+  const [prenom, setPrenom] = useState("");
 
   const [filtrerParConfig, setFiltrerParConfig] = useState();
   const [typeFiltreConfig, setTypeFiltreConfig] = useState();
@@ -54,6 +56,8 @@ function EntreesView() {
   const [isTrie, setIsTrie] = useState(false);
   const [clearFiltre, setClearFiltre] = useState(false);
   const [clearTrie, setClearTrie] = useState(false);
+
+  const user = useSelector(userSelector);
 
   useEffect(() => {
     axios.get(`${getEnvironnement().API_URL}/entrees`)
@@ -80,7 +84,7 @@ function EntreesView() {
   }, [clearFiltre, clearTrie]);
 
   useEffect(() => {
-    axios.get(`${getEnvironnement().API_URL}/users/1`)
+    axios.get(`${getEnvironnement().API_URL}/users/${user.id}`)
       .then((response) => {
         setNom(response.data.nom);
         setPrenom(response.data.prenom);
@@ -220,6 +224,7 @@ function EntreesView() {
       categorie_input = autreCategorie;
     }
     const body = {
+      user_id: user.id, 
       date,
       categorie: categorie_input,
       conditionnement,
@@ -307,6 +312,7 @@ function EntreesView() {
       categorie_input = autreCategorie;
     }
     const body = {
+      user_id: user.id, 
       date,
       categorie: categorie_input,
       conditionnement,

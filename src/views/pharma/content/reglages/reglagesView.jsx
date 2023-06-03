@@ -1,27 +1,28 @@
 import React, { useEffect, useState } from "react";
-import { Backdrop, CircularProgress } from "@mui/material";
+import { Backdrop, CircularProgress, Grid } from "@mui/material";
 import axios from "axios";
 import Tableau from "../../../../components/tableau/tableau";
 import Filtrer from "../../../../components/filtrer/filtrer";
 import Trier from "../../../../components/trier/trier.jsx";
-import "./sortiesStyle.css";
-import FormAjouterMedicamentSortie from "../../../../components/formAjouterMedicamentSortie/formAjouterMedicamentSortie";
-import FormModifierMedicamentSortie from "../../../../components/formAjouterMedicamentSortie/formAjouterMedicamentSortie";
+import "./reglagesStyle.css";
+import FormAjouterUser from "../../../../components/formAjouterUser/formAjouterUser";
+import FormModifierUser from "../../../../components/formAjouterUser/formAjouterUser";
 import CustomAlert from "../../../../components/customAlert/customAlert";
-import FormFiltrerMedicament from "../../../../components/formFiltrer/formFiltrer";
-import FormTrierMedicament from "../../../../components/formTrier/formTrier";
+import FormFiltrerUser from "../../../../components/formFiltrer/formFiltrer";
+import FormTrierUser from "../../../../components/formTrier/formTrier";
 import getEnvironnement from "../../../../environnement";
 import Pagination from "../../../../components/pagination/pagination";
 import Avatar from "../../../../components/avatar/avatar";
 import logo from "../../../../assets/images/pharma.png";
 import { useSelector } from "react-redux";
 import { userSelector } from "../../../../store/userSlice";
+import CustomInput from "../../../../components/customInput/customInput";
 
-function SortiesView() {
+function ReglagesView() {
 
-  const [medicaments, setMedicaments] = useState([]);
-  const [modifiedMedicament, setModifiedMedicament] = useState({});
-  const [isModifierMedicament, setIsModifierMedicament] = useState(false);
+  const [users, setUsers] = useState([]);
+  const [modifiedUser, setModifiedUser] = useState({});
+  const [isModifierUser, setIsModifierUser] = useState(false);
   const [openForm, setOpenForm] = useState(false);
   const [openFormModifier, setOpenFormModifier] = useState(false);
   const [openFormFiltre, setOpenFormFiltre] = useState(false);
@@ -34,7 +35,7 @@ function SortiesView() {
   const [errorFiltre, setErrorFiltre] = useState(null);
   const [errorTrie, setErrorTrie] = useState(null);
   const [numberLeft, setNumberLeft] = useState(1);
-  const [numberRight, setNumberRight] = useState(5);
+  const [numberRight, setNumberRight] = useState(3);
  
   const [image, setImage] = useState(`${getEnvironnement().BACKEND_URL}/storage/default-profile.jpg`);
   const [nom, setNom] = useState("");
@@ -42,14 +43,11 @@ function SortiesView() {
 
   const [filtrerParConfig, setFiltrerParConfig] = useState();
   const [typeFiltreConfig, setTypeFiltreConfig] = useState();
-  const [dateSuperieurAConfig, setDateSuperieurAConfig] = useState();
-  const [dateInferieurAConfig, setDateInferieurAConfig] = useState();
-  const [dateEgaleAConfig, setDateEgaleAConfig] = useState();
   const [egaleAConfig, setEgaleAConfig] = useState();
   const [commenceParConfig, setCommenceParConfig] = useState();
   const [termineParConfig, setTermineParConfig] = useState();
-  const [inferieurAConfig, setInferieurAConfig] = useState();
-  const [superieurAConfig, setSuperieurAConfig] = useState();
+  const [statusEgaleAConfig, setStatusEgaleAConfig] = useState();
+  const [roleEgaleAConfig, setRoleEgaleAConfig] = useState();
   const [trierParConfig, setTrierParConfig] = useState("DATE");
   const [typeTrieConfig, setTypeTrieConfig] = useState("ASC");
   const [isFiltre, setIsFiltre] = useState(false);
@@ -57,21 +55,33 @@ function SortiesView() {
   const [clearFiltre, setClearFiltre] = useState(false);
   const [clearTrie, setClearTrie] = useState(false);
 
+  const [prochePerimee, setProchePerimee] = useState(0);
+  const [procheTerminee, setProcheTerminee] = useState(0);
+  const [errorPeriodes, setErrorPeriodes] = useState(null);
+
   const user = useSelector(userSelector);
 
   useEffect(() => {
-    axios.get(`${getEnvironnement().API_URL}/sorties`)
-      .then((response) => setMedicaments(response.data));
+    axios.get(`${getEnvironnement().API_URL}/configuration`)
+      .then((response) => {
+        setProchePerimee(response.data.periode_proche_perimee);
+        setProcheTerminee(response.data.periode_proche_terminee);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios.get(`${getEnvironnement().API_URL}/users`)
+      .then((response) => setUsers(response.data));
   }, []);
 
   useEffect(() => {
     if (!isTrie && !isFiltre) {
-      axios.get(`${getEnvironnement().API_URL}/sorties`)
-        .then((response) => setMedicaments(response.data));
+      axios.get(`${getEnvironnement().API_URL}/users`)
+        .then((response) => setUsers(response.data));
     } else if (!isFiltre) {
       onValidateTrierHandler(trierParConfig, typeTrieConfig);
     } else if (!isTrie) {
-      onValidateFilterHandler(filtrerParConfig, typeFiltreConfig, dateSuperieurAConfig, dateInferieurAConfig, dateEgaleAConfig, egaleAConfig, commenceParConfig, termineParConfig, inferieurAConfig, superieurAConfig);
+      onValidateFilterHandler(filtrerParConfig, typeFiltreConfig, egaleAConfig, commenceParConfig, termineParConfig, statusEgaleAConfig, roleEgaleAConfig);
     }
     if (clearTrie && clearFiltre) {
       setClearTrie(false);
@@ -93,22 +103,24 @@ function SortiesView() {
   }, []);
 
   useEffect(() => {
-    if (isModifierMedicament) {
+    if (isModifierUser) {
       setOpenFormModifier(true);
-      setIsModifierMedicament(false);
+      setIsModifierUser(false);
     }
-  }, [isModifierMedicament, modifiedMedicament]);
+  }, [isModifierUser, modifiedUser]);
 
-  const onValidateFilterHandler = (filtrerPar, typeFiltre, dateSuperieurA, dateInferieurA, dateEgaleA, egaleA, commencePar, terminePar, inferieurA, superieurA) => {
+  const onValidateFilterHandler = (filtrerPar, typeFiltre, egaleA, commencePar, terminePar, statusEgaleA, roleEgaleA) => {
     setOpenBackdrop(true);
+    setOpenFormFiltre(false);
     
-    const url = `${getEnvironnement().API_URL}/sorties/filtre`;
+    const url = `${getEnvironnement().API_URL}/users/filtre`;
     let body = {
-      filtrerPar, typeFiltre, dateSuperieurA, dateInferieurA, dateEgaleA, egaleA, commencePar, terminePar, inferieurA, superieurA
+      filtrerPar, typeFiltre, egaleA, commencePar, terminePar, statusEgaleA, roleEgaleA
     };
+    console.log(body);
     if (isTrie) {
       body = {
-        medicaments, filtrerPar, typeFiltre, dateSuperieurA, dateInferieurA, dateEgaleA, egaleA, commencePar, terminePar, inferieurA, superieurA
+        users, filtrerPar, typeFiltre, egaleA, commencePar, terminePar, statusEgaleA, roleEgaleA
       };
     }
     const config = {
@@ -122,19 +134,16 @@ function SortiesView() {
         if (response.data.status === "success") {
           setFiltrerParConfig(filtrerPar);
           setTypeFiltreConfig(typeFiltre);
-          setDateSuperieurAConfig(dateSuperieurA);
-          setDateInferieurAConfig(dateInferieurA);
-          setDateEgaleAConfig(dateEgaleA);
           setEgaleAConfig(egaleA);
           setCommenceParConfig(commencePar);
           setTermineParConfig(terminePar);
-          setInferieurAConfig(inferieurA);
-          setSuperieurAConfig(superieurA);
-          const tableauMedicaments = Object.keys(response.data.medicaments).map(key => response.data.medicaments[key]);
-          setMedicaments(tableauMedicaments);
+          setStatusEgaleAConfig(statusEgaleA);
+          setRoleEgaleAConfig(roleEgaleA);
+          const tableauUsers = Object.keys(response.data.users).map(key => response.data.users[key]);
+          setUsers(tableauUsers);
           setIsFiltre(true);
           setNumberLeft(1);
-          setNumberRight(5);
+          setNumberRight(3);
           setTimeout(() => setOpenBackdrop(false), 800);
           setMessageAlert(response.data.message);
           setTimeout(() => setOpenAlertAdd(true), 800);
@@ -154,7 +163,7 @@ function SortiesView() {
     setClearFiltre(true);
     setIsFiltre(false);
     setNumberLeft(1);
-    setNumberRight(5);
+    setNumberRight(3);
     setTimeout(() => setOpenBackdrop(false), 800);
     setMessageAlert("le filtre a bien été supprimé");
     setTimeout(() => setOpenAlertAdd(true), 800);
@@ -164,13 +173,13 @@ function SortiesView() {
   const onValidateTrierHandler = (trierPar, typeTrie) => {
     setOpenBackdrop(true);
     
-    const url = `${getEnvironnement().API_URL}/sorties/trie`;
+    const url = `${getEnvironnement().API_URL}/users/trie`;
     let body = {
       trierPar, typeTrie
     };
     if (isFiltre) {
       body = {
-        medicaments, trierPar, typeTrie
+        users, trierPar, typeTrie
       };
     }
     const config = {
@@ -184,11 +193,11 @@ function SortiesView() {
         if (response.data.status === "success") {
           setTrierParConfig(trierPar);
           setTypeTrieConfig(typeTrie);
-          const tableauMedicaments = Object.keys(response.data.medicaments).map(key => response.data.medicaments[key]);
+          const tableauUsers = Object.keys(response.data.users).map(key => response.data.users[key]);
           if (typeTrie === "ASC") {
-            setMedicaments(tableauMedicaments);
+            setUsers(tableauUsers);
           } else if (typeTrie === "DESC") {
-            setMedicaments(tableauMedicaments.reverse());
+            setUsers(tableauUsers.reverse());
           }
           setIsTrie(true);
           setTimeout(() => setOpenBackdrop(false), 800);
@@ -215,20 +224,16 @@ function SortiesView() {
     setTimeout(() => setOpenAlertAdd(false), 3500);
   };
 
-  const onAddHandler = (date, categorie, autreCategorie, designation, quantite) => {
+  const onAddHandler = (nom, prenom, email, status, role) => {
     setOpenBackdrop(true);
     setOpenForm(false);
-    const url = `${getEnvironnement().API_URL}/sorties`;
-    let categorie_input = categorie;
-    if (categorie === "AUTRE") {
-      categorie_input = autreCategorie;
-    }
+    const url = `${getEnvironnement().API_URL}/users`;
     const body = {
-      user_id: user.id,
-      date,
-      categorie: categorie_input,
-      designation,
-      quantite
+      nom,
+      prenom,
+      email,
+      status,
+      role
     };
     const config = {
       headers : {
@@ -242,13 +247,13 @@ function SortiesView() {
           setClearFiltre(true);
           setIsTrie(false);
           setIsFiltre(false);
-          setMedicaments(response.data.medicaments);
-          if (response.data.medicaments.length % 5 === 0) {
-            setNumberLeft(response.data.medicaments.length - 4);
+          setUsers(response.data.users);
+          if (response.data.users.length % 3 === 0) {
+            setNumberLeft(response.data.users.length - 2);
           } else {
-            setNumberLeft(response.data.medicaments.length - (response.data.medicaments.length % 5) + 1);
+            setNumberLeft(response.data.users.length - (response.data.users.length % 3) + 1);
           }
-          setNumberRight(response.data.medicaments.length);
+          setNumberRight(response.data.users.length);
           setTimeout(() => setOpenBackdrop(false), 800);
           setMessageAlert(response.data.message);
           setTimeout(() => setOpenAlertAdd(true), 800);
@@ -264,15 +269,15 @@ function SortiesView() {
 
   };
 
-  const OnEditHandler = (medicament) => {
+  const OnEditHandler = (user) => {
     setErrorModifier(null);
-    setModifiedMedicament(medicament);
-    setIsModifierMedicament(true);
+    setModifiedUser(user);
+    setIsModifierUser(true);
   };
 
   const onDeleteHandler = (id) => {
     setOpenBackdrop(true);
-    const url = `${getEnvironnement().API_URL}/sorties/${id}`;
+    const url = `${getEnvironnement().API_URL}/users/${id}`;
     const body = {};
     const config = {
       headers : {
@@ -283,16 +288,16 @@ function SortiesView() {
       .then((response) => {
         if (response.data.status === "success") {
           setTimeout(() => setOpenBackdrop(false), 800);
-          if (numberRight === 5 && response.data.medicaments.length < 5) {
-            setNumberRight(response.data.medicaments.length);
-          } else if (numberRight >= response.data.medicaments.length + 1) {
+          if (numberRight === 3 && response.data.users.length < 3) {
+            setNumberRight(response.data.users.length);
+          } else if (numberRight >= response.data.users.length + 1) {
             setNumberRight(numberRight - 1);
           }
           if (numberLeft === numberRight && numberRight !== 1) {
-            setNumberLeft(numberLeft - 5);
+            setNumberLeft(numberLeft - 3);
             setNumberRight(numberRight - 1);
           }
-          setMedicaments(response.data.medicaments);
+          setUsers(response.data.users);
           setMessageAlert(response.data.message);
           setTimeout(() => setOpenAlertAdd(true), 800);
           setTimeout(() => setOpenAlertAdd(false), 3500);
@@ -301,20 +306,16 @@ function SortiesView() {
       .catch((err) => console.log(err.response.data.message));
   };
 
-  const onModifyHandler = (id, date, categorie, autreCategorie, designation, quantite) => {
+  const onModifyHandler = (id, nom, prenom, email, status, role) => {
     setOpenBackdrop(true);
     setOpenFormModifier(false);
-    const url = `${getEnvironnement().API_URL}/sorties/${id}`;
-    let categorie_input = categorie;
-    if (categorie === "AUTRE") {
-      categorie_input = autreCategorie;
-    }
+    const url = `${getEnvironnement().API_URL}/users/${id}`;
     const body = {
-      user_id: user.id,
-      date,
-      categorie: categorie_input,
-      designation,
-      quantite
+      nom,
+      prenom,
+      email,
+      status,
+      role
     };
     const config = {
       headers : {
@@ -324,7 +325,7 @@ function SortiesView() {
     axios.put(url, body, config)
       .then((response) => {
         if (response.data.status === "success") {
-          setMedicaments(response.data.medicaments);
+          setUsers(response.data.users);
           setTimeout(() => setOpenBackdrop(false), 800);
           setMessageAlert(response.data.message);
           setTimeout(() => setOpenAlertAdd(true), 800);
@@ -341,21 +342,49 @@ function SortiesView() {
 
   const pagination = (action) => {
     if (action === "left") {
-      numberLeft === 1 ? setNumberLeft(1) : setNumberLeft(numberLeft - 5);
-      numberRight <= 5 ? setNumberRight(numberRight) : numberRight % 5 === 0 ? setNumberRight(numberRight - 5) : setNumberRight(Math.floor(medicaments.length / 5) * 5);
+      numberLeft === 1 ? setNumberLeft(1) : setNumberLeft(numberLeft - 3);
+      numberRight <= 3 ? setNumberRight(numberRight) : numberRight % 3 === 0 ? setNumberRight(numberRight - 3) : setNumberRight(Math.floor(users.length / 3) * 3);
      
     } else if (action === "right") {
-      console.log(medicaments.length); 
-      // numberLeft - 1 !== Math.floor(medicaments.length / 5) * 5 || numberRight !== Math.floor(medicaments.length / 5) * 5 ? setNumberLeft(numberLeft + 5) : setNumberLeft(numberLeft);
-      
-      numberRight === medicaments.length || medicaments.length < 5 ? setNumberLeft(numberLeft) : setNumberLeft(numberLeft + 5);
-      numberRight === medicaments.length || medicaments.length < 5 ? setNumberRight(numberRight) : numberRight !== Math.floor(medicaments.length / 5) * 5 ? setNumberRight(numberRight + 5) : setNumberRight(numberRight + (medicaments.length % 5));
+      numberRight === users.length || users.length < 3 ? setNumberLeft(numberLeft) : setNumberLeft(numberLeft + 3);
+      numberRight === users.length || users.length < 3 ? setNumberRight(numberRight) : numberRight !== Math.floor(users.length / 3) * 3 ? setNumberRight(numberRight + 3) : setNumberRight(numberRight + (users.length % 3));
       
     }
   };
 
+  const enregistrerHandler = () => {
+    setOpenBackdrop(true);
+    const url = `${getEnvironnement().API_URL}/configuration`;
+    const body = {
+      prochePerimee,
+      procheTerminee
+    };
+    const config = {
+      headers : {
+        "Content-Type": "application/json",
+      }
+    };
+
+    axios.put(url, body, config)
+      .then((response) => {
+        if (response.data.status === "success") {
+          setProchePerimee(response.data.configuration.periode_proche_perimee);
+          setProcheTerminee(response.data.configuration.periode_proche_terminee);
+          setTimeout(() => setOpenBackdrop(false), 800);
+          setMessageAlert(response.data.message);
+          setTimeout(() => setOpenAlertAdd(true), 800);
+          setTimeout(() => setOpenAlertAdd(false), 3500);
+          setErrorPeriodes(null);
+        } else if (response.data.status === "error") {
+          setErrorPeriodes(response.data.error);
+          setOpenBackdrop(false);
+        }
+      })
+      .catch((err) => console.log(err.response));
+  };
+
   return (
-    <div className="entrees-view">
+    <div className="reglages-view">
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={openBackdrop}
@@ -363,96 +392,138 @@ function SortiesView() {
       >
         <CircularProgress color="inherit" />
       </Backdrop>
-      <FormAjouterMedicamentSortie
+      <FormAjouterUser
         open={openForm}
         handleClose={() => setOpenForm(false)}
         onClickAnnuler={() => setOpenForm(false)}
         onClickAjouter={onAddHandler}
         error={error}
       />
-      <FormModifierMedicamentSortie
+      <FormModifierUser
         open={openFormModifier}
         handleClose={() => setOpenFormModifier(false)}
         onClickAnnuler={() => setOpenFormModifier(false)}
         onClickModifier={onModifyHandler}
-        medicament={modifiedMedicament === null ? {} : modifiedMedicament}
+        user={modifiedUser === null ? {} : modifiedUser}
         modifier
         error={errorModifier}
       />
-      <FormFiltrerMedicament
+      <FormFiltrerUser
         open={openFormFiltre}
-        optionsFiltrerPar={["DATE", "CATEGORIE", "DESIGNATION", "QUANTITE"]}
+        optionsFiltrerPar={["NOM", "PRENOM", "EMAIL", "STATUS", "ROLE"]}
         handleClose={() => setOpenFormFiltre(false)}
         onClickAnnuler={() => setOpenFormFiltre(false)}
         onClickValider={onValidateFilterHandler}
         onClickDeleteFiltre={onDeleteFilterHandler}
+        isUser
         error={errorFiltre}
       />
-      <FormTrierMedicament
+      <FormTrierUser
         open={openFormTrie}
-        optionsTrierPar={["DATE", "CATEGORIE", "DESIGNATION", "QUANTITE"]}
+        optionsTrierPar={["NOM", "PRENOM", "EMAIL", "STATUS", "ROLE"]}
         handleClose={() => setOpenFormTrie(false)}
         onClickAnnuler={() => setOpenFormTrie(false)}
         onClickValider={onValidateTrierHandler}
         onClickDeleteTrie={onDeleteTrierHandler}
+        isUser
         error={errorTrie}
       />
       <div className="header">
         <Avatar image={image} nom={nom} prenom={prenom}/>
         <img className="logo" src={logo}/>
       </div>
-      <CustomAlert status="success" open={openAlertAdd}>{messageAlert}</CustomAlert> 
-      <div className="option">
-        <div 
-          className="boutton-ajouter-medicament"
-          onClick={() => {
-            setError(null);
-            setOpenForm(true);
-          }}
-        >
-          <p>AJOUTER UN MEDICAMENT</p>
-        </div>
-        <div className="filtrer-trier">
-          <Trier
-            active={isTrie ? true : false}
-            onClickTrier={() => {
-              setOpenFormTrie(true);
-              setErrorTrie(null);
-            }}
-          />
-          <Filtrer
-            active={isFiltre ? true : false}
-            onClickFiltrer={() => {
-              setOpenFormFiltre(true);
-              setErrorFiltre(null);
-            }}
-          />
-        </div>
+      <CustomAlert status="success" open={openAlertAdd}>{messageAlert}</CustomAlert>
+      <div className="reglages-periodes">
+        <Grid container>
+          <Grid item xs={5}>
+            <CustomInput
+              type="number"
+              id="prochePerimee"
+              name="prochePerimee"
+              error={errorPeriodes !== null ? errorPeriodes.prochePerimee ? true : false : false}
+              textError={errorPeriodes !== null ? errorPeriodes.prochePerimee ? errorPeriodes.prochePerimee : [] : []}
+              value={prochePerimee}
+              placeholder="Période proche perimée"
+              inputLabel="Période proche perimée :"
+              onChangeValue={(e) => setProchePerimee(e.target.value)}
+            />
+          </Grid>
+          <Grid item xs={5}>
+            <CustomInput
+              type="number"
+              id="procheTerminee"
+              name="procheTerminee"
+              error={errorPeriodes !== null ? errorPeriodes.procheTerminee ? true : false : false}
+              textError={errorPeriodes !== null ? errorPeriodes.procheTerminee ? errorPeriodes.procheTerminee : [] : []}
+              value={procheTerminee}
+              placeholder="Période proche términée"
+              inputLabel="Période proche términée :"
+              onChangeValue={(e) => setProcheTerminee(e.target.value)}
+            />
+          </Grid>
+          <Grid item xs={2}>
+            <div
+              className="boutton-enregistrer-periode"
+              onClick={enregistrerHandler}
+            >
+              <p>ENREGISTRER</p>
+            </div>
+          </Grid>
+        </Grid>
       </div>
+      <div className="reglages-users">
+        <div className="option">
+          <div 
+            className="boutton-ajouter-user"
+            onClick={() => {
+              setError(null);
+              setOpenForm(true);
+            }}
+          >
+            <p>AJOUTER UN UTILISATEUR</p>
+          </div>
+          <div className="filtrer-trier">
+            <Trier
+              active={isTrie ? true : false}
+              onClickTrier={() => {
+                setOpenFormTrie(true);
+                setErrorTrie(null);
+              }}
+            />
+            <Filtrer
+              active={isFiltre ? true : false}
+              onClickFiltrer={() => {
+                setOpenFormFiltre(true);
+                setErrorFiltre(null);
+              }}
+            />
+          </div>
+        </div>
 
-      <div className="table-medicament">
-        <Tableau 
-          headers={["Date", "Catégorie", "Désignation", "Quantité"]}
-          headersData={["date", "categorie", "designation", "quantite"]}
-          datas={medicaments}
-          debut={numberLeft}
-          fin={numberRight}
-          editerClick={OnEditHandler}
-          supprimerClick={onDeleteHandler}
-        />
-      </div>
-      <div className="pagination-section">
-        <Pagination
-          numberLeft={numberLeft}
-          numberRight={numberRight}
-          onClickLeft={() => pagination("left")}
-          onClickRight={() => pagination("right")}
-          disabledLeft={numberLeft === 1 ? true : false}
-          disabledRight={numberRight === medicaments.length  || medicaments.length < 5 ? true : false}
-        />
+        <div className="table-user">
+          <Tableau 
+            headers={["Nom", "Prenom", "Email", "Status", "Role"]}
+            headersData={["nom", "prenom", "email", "status", "typeRole"]}
+            datas={users}
+            debut={numberLeft}
+            fin={numberRight}
+            editerClick={OnEditHandler}
+            supprimerClick={onDeleteHandler}
+          />
+        </div>
+        <div className="pagination-section">
+          <Pagination
+            numberLeft={numberLeft}
+            numberRight={numberRight}
+            onClickLeft={() => pagination("left")}
+            onClickRight={() => pagination("right")}
+            disabledLeft={numberLeft === 1 ? true : false}
+            disabledRight={numberRight === users.length  || users.length < 3 ? true : false}
+          />
+        </div>
       </div>
     </div>
   );
 }
 
-export default SortiesView;
+export default ReglagesView;
