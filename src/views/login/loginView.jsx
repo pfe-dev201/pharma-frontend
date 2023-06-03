@@ -6,12 +6,15 @@ import logo from "../../assets/images/pharma.png";
 import "./loginView.css";
 import getEnvironnement from "../../environnement";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { setRole, setUser } from "../../store/userSlice";
 
 function LoginView() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   // const [errorLogin, setErrorLogin] = useState(null);
 
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const url = `${getEnvironnement().API_URL}/login`;
 
@@ -20,7 +23,8 @@ function LoginView() {
     axios
       .post(url, { email, password })
       .then((response) => {
-        console.log(response.data);
+        dispatch(setUser(response.data.user));
+        dispatch(setRole(response.data.role));
         // Redirect to "/pharma"
         navigate("/pharma");
       })

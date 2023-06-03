@@ -29,6 +29,7 @@ function CustomInput({
               id={id}
               select
               value={value}
+              disabled = {disabled}
               fullWidth
               error = {error}
               onChange={onChangeValue}

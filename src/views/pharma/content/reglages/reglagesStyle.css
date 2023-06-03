@@ -1,0 +1,112 @@
+@font-face {
+  font-family: 'Inder';
+  src: url("../../../../assets/fonts/Inder-Regular.ttf") format('truetype');
+}
+
+.reglages-view{
+  display: flex;
+  flex-direction: column;
+}
+
+.header{
+  height: 120px;
+  margin: 1vh 3vw;
+  display: flex;
+  justify-content: space-between;
+}
+
+.logo{
+  width: 87px;
+  height: 95px;
+  margin-top: 22px;
+  position: relative;
+  bottom: 10px;
+}
+
+.reglages-periodes{
+  padding: 20px 50px 10px 50px;
+  border-radius: 10px;
+  border: solid 3px #9D0F0F;
+  margin: 1vh 3vw;
+}
+
+.boutton-enregistrer-periode{
+  align-items: center;
+  margin-top: 20px;
+}
+
+.boutton-enregistrer-periode p{
+  background-color: #A70505;
+  color: white;
+  text-align: center;
+  padding: 16px 27px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: 'Inder', sans-serif;
+  margin: 0px;
+  height: 55px;
+  border: solid 1px green;
+}
+
+.boutton-enregistrer-periode p:hover{
+  background-color: #9D0F0F;
+  box-shadow: 2px 2px 2px rgb(229, 229, 229);
+  transition-property: bottom;
+  transition-duration: 3s;
+  position: relative;
+  bottom: 5px;
+}
+
+.reglages-users{
+  padding: 20px 20px 30px 20px;
+  border-radius: 10px;
+  border: solid 3px #9D0F0F;
+  margin: 1vh 3vw;
+}
+
+.option{
+  display: flex;
+  justify-content: space-between;
+  margin: 2vh 3vw;
+}
+
+.boutton-ajouter-user{
+  display: flex;
+  align-items: center;
+}
+
+.boutton-ajouter-user p{
+  background-color: #A70505;
+  color: white;
+  text-align: center;
+  padding: 10px 30px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: 'Inder', sans-serif;
+  margin: 0px;
+}
+
+.boutton-ajouter-user p:hover{
+  background-color: #9D0F0F;
+  box-shadow: 2px 2px 2px rgb(229, 229, 229);
+  transition-property: bottom;
+  transition-duration: 3s;
+  position: relative;
+  bottom: 5px;
+}
+
+.filtrer-trier{
+  display: flex;
+  justify-content: space-between;
+  width: 280px;
+  margin-right: 3vh;
+}
+
+.table-user{
+  margin: 1vh 3vw;
+}
+
+.pagination-section{
+  height: 50px;
+  margin: 1vh 3vw;
+}

@@ -5,9 +5,12 @@ import { ReactComponent as MedicammentIcon } from "../../assets/icons/medicament
 import { ReactComponent as StockIcon } from "../../assets/icons/stock.svg";
 import { ReactComponent as ProfilIcon } from "../../assets/icons/profile.svg";
 import { ReactComponent as SettingIcon } from "../../assets/icons/setting.svg";
+import { setRole, setUser } from "../../store/userSlice";
+import { useDispatch } from "react-redux";
 import "./sideBar.css";
 
 function SideBar () {
+  const dispatch = useDispatch();
   return (
     <div className="sideBar">
       <div className="link-div">
@@ -36,7 +39,14 @@ function SideBar () {
           <span className="link-title">Réglages</span>
         </NavLink>
       </div>
-      <Link className="link deconnexion" to="/">
+      <Link
+        className="link deconnexion"
+        to="/"
+        onClick={() => {
+          dispatch(setUser(null));
+          dispatch(setRole("ECRIRE"));
+        }}
+      >
         <span className="link-title">Déconnexion</span>
       </Link>
     </div>

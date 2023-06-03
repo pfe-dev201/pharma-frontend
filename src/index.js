@@ -6,6 +6,10 @@ import PharmaView from "./views/pharma/pharmaView";
 import EntreesView from "./views/pharma/content/entrees/entreesView";
 import Welcome from "./views/pharma/content/welcome/welcome";
 import SortiesView from "./views/pharma/content/sorties/sortiesView";
+import ReglagesView from "./views/pharma/content/reglages/reglagesView";
+import { Provider } from "react-redux";
+import store from "./store/store";
+import CheckLogin from "./components/checkLogin";
 
 const router = createBrowserRouter([
   {
@@ -14,7 +18,7 @@ const router = createBrowserRouter([
   },
   {
     path: "pharma",
-    element: <PharmaView />,
+    element: <CheckLogin Component={PharmaView} />,
     children: [
       { 
         index: true,
@@ -22,31 +26,35 @@ const router = createBrowserRouter([
       },
       {
         path: "rapport",
-        element: <LoginView />,
+        element: <CheckLogin Component={LoginView} />,
       },
       {
         path: "entrees",
-        element: <EntreesView />,
+        element: <CheckLogin Component={EntreesView} />,
       },
       {
         path: "sorties",
-        element: <SortiesView />,
+        element: <CheckLogin Component={SortiesView} />,
       },
       {
         path: "stock",
-        element: <LoginView />,
+        element: <CheckLogin Component={LoginView} />,
       },
       {
         path: "profil",
-        element: <LoginView />,
+        element: <CheckLogin Component={LoginView} />,
       },
       {
         path: "reglages",
-        element: <LoginView />,
+        element: <CheckLogin Component={ReglagesView} />,
       },
     ]
   },
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<RouterProvider router={router} />);
+root.render(
+  <Provider store={store}>
+    <RouterProvider router={router} />
+  </Provider>
+);

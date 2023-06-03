@@ -4,7 +4,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Dialog from "@mui/material/Dialog";
 import { DialogContent, Grid } from "@mui/material";
 import CustomInput from "../customInput/customInput";
-import "./formTrierMedicamentStyle.css";
+import "./formTrierStyle.css";
 
 function FormTrierMedicament({
   open,
@@ -13,10 +13,11 @@ function FormTrierMedicament({
   onClickValider,
   onClickAnnuler,
   onClickDeleteTrie,
+  isUser,
   error
 }) {
 
-  const [trierPar, setTrierPar] = useState("DATE");
+  const [trierPar, setTrierPar] = useState(isUser ? "NOM" : "DATE");
   const [typeTrie, setTypeTrie] = useState("ASC");
 
   return (
@@ -74,6 +75,7 @@ FormTrierMedicament.propTypes = {
   onClickValider: PropTypes.func.isRequired,
   onClickAnnuler: PropTypes.func.isRequired,
   onClickDeleteTrie: PropTypes.func.isRequired,
+  isUser: PropTypes.bool,
   error: PropTypes.object,
 };
 
