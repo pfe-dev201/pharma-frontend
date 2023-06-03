@@ -8,9 +8,10 @@ import Welcome from "./views/pharma/content/welcome/welcome";
 import SortiesView from "./views/pharma/content/sorties/sortiesView";
 import ReglagesView from "./views/pharma/content/reglages/reglagesView";
 import { Provider } from "react-redux";
-import store from "./store/store";
+import { store, persistor } from "./store/store";
 import CheckLogin from "./components/checkLogin";
 import Rapport from "./views/pharma/content/rapport/rapport";
+import { PersistGate } from "redux-persist/integration/react";
 
 const router = createBrowserRouter([
   {
@@ -56,6 +57,8 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
-    <RouterProvider router={router} />
+    <PersistGate loading={null} persistor={persistor}>
+      <RouterProvider router={router} />
+    </PersistGate>
   </Provider>
 );

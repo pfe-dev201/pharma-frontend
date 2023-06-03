@@ -5,23 +5,31 @@ import { ReactComponent as MedicammentIcon } from "../../assets/icons/medicament
 import { ReactComponent as StockIcon } from "../../assets/icons/stock.svg";
 import { ReactComponent as ProfilIcon } from "../../assets/icons/profile.svg";
 import { ReactComponent as SettingIcon } from "../../assets/icons/setting.svg";
-import { setRole, setUser } from "../../store/userSlice";
-import { useDispatch } from "react-redux";
+import { setRole, setUser, userRoleSelector } from "../../store/userSlice";
+import { useDispatch, useSelector } from "react-redux";
 import "./sideBar.css";
 
 function SideBar () {
   const dispatch = useDispatch();
+  const role = useSelector(userRoleSelector);
   return (
     <div className="sideBar">
       <div className="link-div">
-        <NavLink className="link" to="entrees">
-          <MedicammentIcon className="sideIcon"/>
-          <span className="link-title">Entrées</span>
-        </NavLink>
-        <NavLink className="link" to="sorties">
-          <MedicammentIcon className="sideIcon"/>
-          <span className="link-title">Sorties</span>
-        </NavLink>
+        {role === "LIRE"
+          ? <></>
+          : (
+            <>
+              <NavLink className="link" to="entrees">
+                <MedicammentIcon className="sideIcon"/>
+                <span className="link-title">Entrées</span>
+              </NavLink>
+              <NavLink className="link" to="sorties">
+                <MedicammentIcon className="sideIcon"/>
+                <span className="link-title">Sorties</span>
+              </NavLink>
+            </>
+          )
+        }
         <NavLink className="link" to="stock">
           <StockIcon className="sideIcon"/>
           <span className="link-title">Stock</span>
@@ -34,10 +42,15 @@ function SideBar () {
           <ProfilIcon className="sideIcon"/>
           <span className="link-title">Profil</span>
         </NavLink>
-        <NavLink className="link" to="reglages">
-          <SettingIcon className="sideIcon"/>
-          <span className="link-title">Réglages</span>
-        </NavLink>
+        {role === "ECRIRE-LIRE" 
+          ? (
+            <NavLink className="link" to="reglages">
+              <SettingIcon className="sideIcon"/>
+              <span className="link-title">Réglages</span>
+            </NavLink>
+          )
+          : <></>
+        }
       </div>
       <Link
         className="link deconnexion"
