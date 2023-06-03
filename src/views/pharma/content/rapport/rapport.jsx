@@ -84,7 +84,7 @@ function Rapport() {
           <XAxis dataKey="name" stroke="#000" tick={{ fontSize: 36, fontWeight: 400, fontFamily: "Inder", lineHeight: 45 }} />
           <YAxis tickCount={4} tick={{ fontSize: 36, fontWeight: 400, fontFamily: "Inder", color: "#000" }} />
           <Tooltip wrapperStyle={{ width: 100, backgroundColor: "#FFF8" }} />
-          <CartesianGrid stroke="#9D0F0F" strokeDasharray="1 3" vertical={false} fill="#F5F5F5"/>
+          <CartesianGrid stroke="#9D0F0F" strokeDasharray="6 6" vertical={false}/>
           <Bar dataKey="entree" fill="#A70505" barSize={33} />
           <Bar dataKey="sortie" fill="#4B7D4A" barSize={33} />
         </BarChart>

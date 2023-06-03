@@ -41,7 +41,7 @@ function FormFilterRapport({
           id="typeTrie"
           name="typeTrie"
           inputLabel="Année :"
-          options={["2023", "2022"]}
+          options={["2030","2029","2028","2027","2026","2025","2024","2023", "2022"]}
           error={errorTypeTrie !== null}
           textError={errorTypeTrie || []}
           value={typeTrie}
