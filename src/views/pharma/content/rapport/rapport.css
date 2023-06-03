@@ -1,0 +1,36 @@
+.option-rapport {
+  display: flex;
+  justify-content: end;
+  margin: 2vh 3vw;
+}
+
+.boutton-filtrer-rapport {
+  background-color: #A70505;
+  /* width: 471px; */
+  color: white;
+  text-align: center;
+  padding: 10px 30px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: 'Inder', sans-serif;
+  margin: 0px;
+  border-radius: 10px;
+}
+
+.desc {
+  width: 901px;
+  height: 62px;
+
+  font-family: 'Inder';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 40px;
+
+  color: #000000;
+  margin: 25px 0;
+}
+
+.medicament-name {
+  color: #547654;
+}

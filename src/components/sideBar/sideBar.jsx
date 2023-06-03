@@ -14,10 +14,6 @@ function SideBar () {
   return (
     <div className="sideBar">
       <div className="link-div">
-        <NavLink className="link" to="rapport">
-          <RapportIcon className="sideIcon"/>
-          <span className="link-title">Rapport</span>
-        </NavLink>
         <NavLink className="link" to="entrees">
           <MedicammentIcon className="sideIcon"/>
           <span className="link-title">Entrées</span>
@@ -29,6 +25,10 @@ function SideBar () {
         <NavLink className="link" to="stock">
           <StockIcon className="sideIcon"/>
           <span className="link-title">Stock</span>
+        </NavLink>
+        <NavLink className="link" to="rapport">
+          <RapportIcon className="sideIcon"/>
+          <span className="link-title">Rapport</span>
         </NavLink>
         <NavLink className="link" to="profil">
           <ProfilIcon className="sideIcon"/>
