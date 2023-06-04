@@ -14,10 +14,11 @@ function FormTrierMedicament({
   onClickAnnuler,
   onClickDeleteTrie,
   isUser,
+  isStock,
   error
 }) {
 
-  const [trierPar, setTrierPar] = useState(isUser ? "NOM" : "DATE");
+  const [trierPar, setTrierPar] = useState(isUser ? "NOM" : isStock ? "STOCK" : "DATE");
   const [typeTrie, setTypeTrie] = useState("ASC");
 
   return (
@@ -76,6 +77,7 @@ FormTrierMedicament.propTypes = {
   onClickAnnuler: PropTypes.func.isRequired,
   onClickDeleteTrie: PropTypes.func.isRequired,
   isUser: PropTypes.bool,
+  isStock: PropTypes.bool,
   error: PropTypes.object,
 };
 

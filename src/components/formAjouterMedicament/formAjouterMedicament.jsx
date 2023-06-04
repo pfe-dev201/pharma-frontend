@@ -26,7 +26,6 @@ function FormAjouterMedicament({ open, handleClose, onClickAjouter, onClickModif
   const [categorie, setCategorie] = useState(modifier ? "AUTRE" : "CM");
   const [autreCategorie, setAutreCategorie] = useState(modifier ? medicament.categorie : "");
   const [designation, setDesignation] = useState(modifier ? medicament.designation : "");
-  const [conditionnement, setConditionnement] = useState(modifier ? medicament.conditionnement : "");
   const [quantite, setQuantite] = useState(modifier ? medicament.quantite : 0);
 
   useEffect(() => {
@@ -36,7 +35,6 @@ function FormAjouterMedicament({ open, handleClose, onClickAjouter, onClickModif
       setCategorie("AUTRE");
       setAutreCategorie(medicament.categorie);
       setDesignation(medicament.designation);
-      setConditionnement(medicament.conditionnement);
       setQuantite(medicament.quantite);
     }
   }, [medicament]);
@@ -48,7 +46,6 @@ function FormAjouterMedicament({ open, handleClose, onClickAjouter, onClickModif
       setCategorie("AUTRE");
       setAutreCategorie(medicament.categorie);
       setDesignation(medicament.designation);
-      setConditionnement(medicament.conditionnement);
       setQuantite(medicament.quantite);
     } else {
       setDate(getDate());
@@ -56,7 +53,6 @@ function FormAjouterMedicament({ open, handleClose, onClickAjouter, onClickModif
       setCategorie("CM");
       setAutreCategorie("");
       setDesignation("");
-      setConditionnement("");
       setQuantite(0);
     }
   };
@@ -131,7 +127,7 @@ function FormAjouterMedicament({ open, handleClose, onClickAjouter, onClickModif
           </Grid>
         </Grid>
         <Grid container>
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <CustomInput
               type="text"
               id="designation"
@@ -142,21 +138,6 @@ function FormAjouterMedicament({ open, handleClose, onClickAjouter, onClickModif
               value={designation}
               inputLabel="Désignation :"
               onChangeValue={(e) => setDesignation(e.target.value.toUpperCase())}
-            />
-          </Grid>
-        </Grid>
-        <Grid container>
-          <Grid item xs={6}>
-            <CustomInput
-              type="text"
-              id="conditionnement"
-              name="conditionnement"
-              placeholder="Conditionnement"
-              error={error !== null ? error.conditionnement ? true : false : false}
-              textError={error !== null ? error.conditionnement ? error.conditionnement : [] : []}
-              value={conditionnement}
-              inputLabel="Conditionnement :"
-              onChangeValue={(e) => setConditionnement(e.target.value.toUpperCase())}
             />
           </Grid>
           <Grid item xs={6}>
@@ -194,9 +175,9 @@ function FormAjouterMedicament({ open, handleClose, onClickAjouter, onClickModif
                   resetForm();
                 }
                 if (modifier) {
-                  onClickModifier(medicament.id, date, categorie, autreCategorie, conditionnement, designation, peremption, quantite);
+                  onClickModifier(medicament.id, date, categorie, autreCategorie, designation, peremption, quantite);
                 } else {
-                  onClickAjouter(date, categorie, autreCategorie, conditionnement, designation, peremption, quantite);
+                  onClickAjouter(date, categorie, autreCategorie, designation, peremption, quantite);
                 }
               }}
             >
