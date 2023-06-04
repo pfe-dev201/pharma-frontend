@@ -215,7 +215,7 @@ function EntreesView() {
     setTimeout(() => setOpenAlertAdd(false), 3500);
   };
 
-  const onAddHandler = (date, categorie, autreCategorie, conditionnement, designation, peremption, quantite) => {
+  const onAddHandler = (date, categorie, autreCategorie, designation, peremption, quantite) => {
     setOpenBackdrop(true);
     setOpenForm(false);
     const url = `${getEnvironnement().API_URL}/entrees`;
@@ -227,7 +227,6 @@ function EntreesView() {
       user_id: user.id, 
       date,
       categorie: categorie_input,
-      conditionnement,
       designation,
       peremption,
       quantite
@@ -303,7 +302,7 @@ function EntreesView() {
       .catch((err) => console.log(err.response.data.message));
   };
 
-  const onModifyHandler = (id, date, categorie, autreCategorie, conditionnement, designation, peremption, quantite) => {
+  const onModifyHandler = (id, date, categorie, autreCategorie, designation, peremption, quantite) => {
     setOpenBackdrop(true);
     setOpenFormModifier(false);
     const url = `${getEnvironnement().API_URL}/entrees/${id}`;
@@ -315,7 +314,6 @@ function EntreesView() {
       user_id: user.id, 
       date,
       categorie: categorie_input,
-      conditionnement,
       designation,
       peremption,
       quantite
@@ -363,7 +361,6 @@ function EntreesView() {
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={openBackdrop}
-        onClick={() => setOpenBackdrop(false)}
       >
         <CircularProgress color="inherit" />
       </Backdrop>
@@ -385,7 +382,7 @@ function EntreesView() {
       />
       <FormFiltrerMedicament
         open={openFormFiltre}
-        optionsFiltrerPar={["DATE", "PEREMPTION", "CATEGORIE", "DESIGNATION", "CONDITIONNEMENT", "QUANTITE"]}
+        optionsFiltrerPar={["DATE", "PEREMPTION", "CATEGORIE", "DESIGNATION", "QUANTITE"]}
         handleClose={() => setOpenFormFiltre(false)}
         onClickAnnuler={() => setOpenFormFiltre(false)}
         onClickValider={onValidateFilterHandler}
@@ -394,7 +391,7 @@ function EntreesView() {
       />
       <FormTrierMedicament
         open={openFormTrie}
-        optionsTrierPar={["DATE", "PEREMPTION", "CATEGORIE", "DESIGNATION", "CONDITIONNEMENT", "QUANTITE"]}
+        optionsTrierPar={["DATE", "PEREMPTION", "CATEGORIE", "DESIGNATION", "QUANTITE"]}
         handleClose={() => setOpenFormTrie(false)}
         onClickAnnuler={() => setOpenFormTrie(false)}
         onClickValider={onValidateTrierHandler}
@@ -436,8 +433,8 @@ function EntreesView() {
 
       <div className="table-medicament">
         <Tableau 
-          headers={["Date", "Catégorie", "Conditionnement", "Désignation", "Péremption", "Quantité"]}
-          headersData={["date", "categorie", "conditionnement", "designation", "peremption", "quantite"]}
+          headers={["Date", "Catégorie", "Désignation", "Péremption", "Quantité"]}
+          headersData={["date", "categorie", "designation", "peremption", "quantite"]}
           datas={medicaments}
           debut={numberLeft}
           fin={numberRight}

@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import "./tableau.css";
 
-function Tableau({ headers, headersData, datas, debut, fin, editerClick, supprimerClick }) {
+function Tableau({ headers, headersData, datas, debut, fin, editerClick, supprimerClick, stock }) {
   return (
     <table className="tableau">
       <thead>
@@ -10,7 +10,10 @@ function Tableau({ headers, headersData, datas, debut, fin, editerClick, supprim
           {headers.map((header) => (
             <td className="th" key={header}>{header}</td>
           ))}
-          <td className="th">Action</td>
+          {stock
+            ? <></>
+            : <td className="th">Action</td>
+          }
         </tr>
       </thead>
       <tbody>
@@ -19,10 +22,15 @@ function Tableau({ headers, headersData, datas, debut, fin, editerClick, supprim
             {headersData.map((header) => (
               <td key={header}>{data[header]}</td>
             ))}
-            <td className="action">
-              <span className="editer" onClick={() => editerClick(data)}>Editer</span> - <br/>
-              <span className="supprimer" onClick={() => supprimerClick(data.id)}>Supprimer</span>
-            </td>
+            {stock
+              ? <></>
+              : (
+                <td className="action">
+                  <span className="editer" onClick={() => editerClick(data)}>Editer</span> - <br/>
+                  <span className="supprimer" onClick={() => supprimerClick(data.id)}>Supprimer</span>
+                </td>
+              )
+            }
           </tr>
         ))}
       </tbody>
@@ -38,6 +46,7 @@ Tableau.propTypes = {
   fin: PropTypes.number.isRequired,
   editerClick: PropTypes.func,
   supprimerClick: PropTypes.func,
+  stock: PropTypes.bool,
 };
 
 export default Tableau;

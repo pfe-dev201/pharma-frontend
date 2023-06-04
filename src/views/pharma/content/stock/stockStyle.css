@@ -1,0 +1,92 @@
+@font-face {
+  font-family: 'Inder';
+  src: url("../../../../assets/fonts/Inder-Regular.ttf") format('truetype');
+}
+
+.entrees-view{
+  display: flex;
+  flex-direction: column;
+}
+
+.header{
+  height: 120px;
+  margin: 1vh 3vw;
+  display: flex;
+  justify-content: space-between;
+}
+
+.logo{
+  width: 87px;
+  height: 95px;
+  margin-top: 22px;
+  position: relative;
+  bottom: 10px;
+}
+
+.option-stock{
+  display: flex;
+  justify-content: space-between;
+  margin: 2vh 3vw;
+}
+
+.boutton-ajouter-medicament{
+  display: flex;
+  align-items: center;
+}
+
+.boutton-ajouter-medicament p{
+  background-color: #A70505;
+  color: white;
+  text-align: center;
+  padding: 10px 30px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: 'Inder', sans-serif;
+  margin: 0px;
+}
+
+.boutton-ajouter-medicament p:hover{
+  background-color: #9D0F0F;
+  box-shadow: 2px 2px 2px rgb(229, 229, 229);
+  transition-property: bottom;
+  transition-duration: 3s;
+  position: relative;
+  bottom: 5px;
+}
+
+.imprimer{
+  display: flex;
+  justify-content: flex-end;
+  width: 168px;
+}
+
+.table-medicament{
+  overflow-x: auto;
+  margin: 1vh 3vw;
+}
+
+.pagination-section{
+  height: 50px;
+  margin: 1vh 3vw;
+}
+
+/* width */
+::-webkit-scrollbar {
+  height: 1vh;
+  width: 0.5vw;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #a7050563;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #A70505;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #C7463E;
+}

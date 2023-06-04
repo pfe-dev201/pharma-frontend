@@ -52,7 +52,7 @@ function FormFiltrerMedicament({
     if(e.target.value === "DATE" || e.target.value === "PEREMPTION"){
       setOptionsTypeFiltre(["DATE EGALE A", "DATE INFERIEUR A", "DATE SUPERIEUR A"]);
       setTypeFiltre("DATE EGALE A");
-    }else if(e.target.value === "CATEGORIE" || e.target.value === "DESIGNATION" || e.target.value === "CONDITIONNEMENT" || e.target.value === "NOM" || e.target.value === "PRENOM" || e.target.value === "EMAIL"){
+    }else if(e.target.value === "CATEGORIE" || e.target.value === "DESIGNATION" || e.target.value === "NOM" || e.target.value === "PRENOM" || e.target.value === "EMAIL"){
       setOptionsTypeFiltre(["EGALE A", "COMMENCE PAR", "TERMINE PAR"]);
       setTypeFiltre("EGALE A");
     }else if(e.target.value === "ROLE"){
