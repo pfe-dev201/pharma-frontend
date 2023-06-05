@@ -11,6 +11,10 @@ import logo from "../../../../assets/images/pharma.png";
 import { useSelector } from "react-redux";
 import { userSelector } from "../../../../store/userSlice";
 import Imprimer from "../../../../components/imprimer/imprimer";
+import { PDFViewer } from "@react-pdf/renderer";
+import PdfGenerator from "../pdfGenerator";
+import Revenir from "../../../../components/revenir/revenir";
+import { useNavigate } from "react-router-dom";
 
 function StockView() {
 
@@ -27,7 +31,12 @@ function StockView() {
 
   const [headers, setHeaders] = useState(["Catégorie", "Désignation", "Stock", "Etat Quantité"]);
   const [headersData, setHeadersData] = useState(["categorie", "designation", "stock", "etatQuantite"]);
-  
+  const [chercherParConfig, setChercherParConfig] = useState("SITUATION GLOBALE");
+  const [produitConfig, setProduitConfig] = useState("");
+  const [categorieConfig, setCategorieConfig] = useState("");
+  const [print, setPrint] = useState(false);
+
+  const navigate = useNavigate();
   const user = useSelector(userSelector);
 
   const getDate = () => {
@@ -59,6 +68,9 @@ function StockView() {
     if (isBackDrop) {
       setOpenBackdrop(true);
     }
+    setChercherParConfig(chercherPar);
+    setProduitConfig(produit);
+    setCategorieConfig(categorie);
     if (chercherPar === "DESIGNATION") {
       setHeaders(["Date", "Catégorie", "Désignation", "Péremption", "Entrée/Sortie", "Stock", "Etat Péremption", "Etat Quantité"]);
       setHeadersData(["date", "categorie", "designation", "peremption", "entreeSortie", "stock", "etatPeremption", "etatQuantite"]);
@@ -126,40 +138,71 @@ function StockView() {
         <img className="logo" src={logo}/>
       </div>
       <div className="option-stock">
-        <div 
-          className="boutton-ajouter-medicament"
-          onClick={() => {
-            setError(null);
-            setOpenForm(true);
-          }}
-        >
-          <p>CONFIGURATION</p>
-        </div>
-        <div className="imprimer">
-          <Imprimer />
-        </div>
+        {print
+          ? <div />
+          : (
+            <div 
+              className="boutton-ajouter-medicament"
+              onClick={() => {
+                setError(null);
+                setOpenForm(true);
+              }}
+            >
+              <p>CONFIGURATION</p>
+            </div>
+          )
+        }
+        {print
+          ? (
+            <div className="revenir">
+              <Revenir onClickRevenir={() => {setPrint(false); navigate("/pharma/stock");}} />
+            </div>
+          )
+          : (
+            <div className="imprimer">
+              <Imprimer onClickImprimer={() => setPrint(true)} />
+            </div>
+          )
+        }
+        
       </div>
-
-      <div className="table-medicament">
-        <Tableau 
-          headers={headers}
-          headersData={headersData}
-          datas={stocks}
-          debut={numberLeft}
-          fin={numberRight}
-          stock
-        />
-      </div>
-      <div className="pagination-section">
-        <Pagination
-          numberLeft={numberLeft}
-          numberRight={numberRight}
-          onClickLeft={() => pagination("left")}
-          onClickRight={() => pagination("right")}
-          disabledLeft={numberLeft === 1 ? true : false}
-          disabledRight={numberRight === stocks.length  || stocks.length < 5 ? true : false}
-        />
-      </div>
+      {
+        print
+          ? (
+            <PDFViewer style={{height: "70vh", margin: "0vh 3vw"}}>
+              <PdfGenerator
+                data={stocks}
+                chercherPar={chercherParConfig}
+                produit={produitConfig}
+                categorie={categorieConfig}
+              />
+            </PDFViewer>
+          )
+          : (
+            <>
+              <div className="table-medicament">
+                <Tableau 
+                  headers={headers}
+                  headersData={headersData}
+                  datas={stocks}
+                  debut={numberLeft}
+                  fin={numberRight}
+                  stock
+                />
+              </div>
+              <div className="pagination-section">
+                <Pagination
+                  numberLeft={numberLeft}
+                  numberRight={numberRight}
+                  onClickLeft={() => pagination("left")}
+                  onClickRight={() => pagination("right")}
+                  disabledLeft={numberLeft === 1 ? true : false}
+                  disabledRight={numberRight === stocks.length  || stocks.length < 5 ? true : false}
+                />
+              </div>
+            </>
+          )
+      }
     </div>
   );
 }
