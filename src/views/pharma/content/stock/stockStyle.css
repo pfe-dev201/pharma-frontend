@@ -60,6 +60,12 @@
   width: 168px;
 }
 
+.revenir{
+  display: flex;
+  justify-content: flex-end;
+  width: 268px;
+}
+
 .table-medicament{
   overflow-x: auto;
   margin: 1vh 3vw;

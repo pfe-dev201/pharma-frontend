@@ -63,7 +63,7 @@ function FormAjouterUser({ open, handleClose, onClickAjouter, onClickModifier, o
               textError={error !== null ? error.nom ? error.nom : [] : []}
               value={nom}
               inputLabel="Nom :"
-              onChangeValue={(e) => setNom(e.target.value.toUpperCase())}
+              onChangeValue={(e) => setNom(e.target.value)}
             />
           </Grid>
           <Grid item xs={6}>
@@ -76,7 +76,7 @@ function FormAjouterUser({ open, handleClose, onClickAjouter, onClickModifier, o
               textError={error !== null ? error.prenom ? error.prenom : [] : []}
               value={prenom}
               inputLabel="Prenom :"
-              onChangeValue={(e) => setPrenom(e.target.value.toUpperCase())}
+              onChangeValue={(e) => setPrenom(e.target.value)}
             />
           </Grid>
         </Grid>
@@ -91,7 +91,7 @@ function FormAjouterUser({ open, handleClose, onClickAjouter, onClickModifier, o
               textError={error !== null ? error.email ? error.email : [] : []}
               value={email}
               inputLabel="Email :"
-              onChangeValue={(e) => setEmail(e.target.value.toUpperCase())}
+              onChangeValue={(e) => setEmail(e.target.value)}
             />
           </Grid>
         </Grid>
