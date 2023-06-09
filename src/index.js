@@ -13,6 +13,7 @@ import CheckLogin from "./components/checkLogin";
 import Rapport from "./views/pharma/content/rapport/rapport";
 import { PersistGate } from "redux-persist/integration/react";
 import StockView from "./views/pharma/content/stock/stockView";
+import ProfileView from "./views/pharma/content/profile/profileView";
 
 const router = createBrowserRouter([
   {
@@ -45,7 +46,7 @@ const router = createBrowserRouter([
       },
       {
         path: "profil",
-        element: <CheckLogin Component={LoginView} />,
+        element: <CheckLogin Component={ProfileView} />,
       },
       {
         path: "reglages",

@@ -1,0 +1,57 @@
+.form-profile{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 1vh 3vw;
+}
+
+.form-profile .row{
+  margin-top: 20px;
+}
+
+.form-profile div div div div {
+  margin-top: 10px;
+}
+
+.form-profile div div div div input{
+  padding: 20px 27px;
+}
+
+.boutton-profile{
+  align-items: center;
+  margin-top: 15px;
+  margin-right: 15px;
+}
+
+.boutton-profile p{
+  text-align: center;
+  padding: 15px 27px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: 'Inder', sans-serif;
+  margin: 0px;
+}
+
+.boutton-profile p:hover{
+  background-color: #9D0F0F;
+  box-shadow: 2px 2px 2px rgb(229, 229, 229);
+  transition-property: bottom;
+  transition-duration: 3s;
+  position: relative;
+  bottom: 5px;
+}
+
+.btn-annuler p{
+  border: solid 1px #A70505;
+  color: #A70505;
+}
+
+.btn-annuler p:hover{
+  background-color: #A70505;
+  color: white;
+}
+
+.btn-enregistrer p{
+  background-color: #A70505;
+  color: white;
+}
