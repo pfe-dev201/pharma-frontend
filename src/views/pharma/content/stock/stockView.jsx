@@ -12,7 +12,7 @@ import { useSelector } from "react-redux";
 import { userSelector } from "../../../../store/userSlice";
 import Imprimer from "../../../../components/imprimer/imprimer";
 import { PDFViewer } from "@react-pdf/renderer";
-import PdfGenerator from "../pdfGenerator";
+import PdfGenerator from "../../../../components/pdfGenerator";
 import Revenir from "../../../../components/revenir/revenir";
 import { useNavigate } from "react-router-dom";
 

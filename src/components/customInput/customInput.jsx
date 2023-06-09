@@ -47,7 +47,7 @@ function CustomInput({
             <>
               <OutlinedInput
                 type={type}
-                id="input-label"
+                id={id}
                 name={name}
                 placeholder={placeholder}
                 fullWidth
