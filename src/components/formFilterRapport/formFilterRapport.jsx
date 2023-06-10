@@ -15,8 +15,8 @@ function FormFilterRapport({
   error
 }) {
 
-  const [trierPar, setTrierPar] = useState("DATE");
-  const [typeTrie, setTypeTrie] = useState("ASC");
+  const [trierPar, setTrierPar] = useState("");
+  const [typeTrie, setTypeTrie] = useState("");
 
   const errorTrierPar = error?.trierPar || null;
   const errorTypeTrie = error?.typeTrie || null;
@@ -28,7 +28,7 @@ function FormFilterRapport({
         <CustomInput
           isSelect
           id="trierPar"
-          name="trierPar"
+          name="designation"
           inputLabel="Désignation :"
           options={optionsTrierPar}
           error={errorTrierPar !== null}
@@ -39,7 +39,7 @@ function FormFilterRapport({
         <CustomInput 
           isSelect
           id="typeTrie"
-          name="typeTrie"
+          name="date"
           inputLabel="Année :"
           options={["2030","2029","2028","2027","2026","2025","2024","2023", "2022"]}
           error={errorTypeTrie !== null}
