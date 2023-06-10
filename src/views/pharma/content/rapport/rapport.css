@@ -1,7 +1,7 @@
 .option-rapport {
   display: flex;
   justify-content: flex-end;
-  margin: 2vh 3vw;
+  margin: 1.2vh 3vw;
 }
 
 .boutton-filtrer-rapport {
@@ -18,8 +18,6 @@
 }
 
 .desc {
-  width: 901px;
-  height: 62px;
 
   font-family: 'Inder';
   font-style: normal;
@@ -29,8 +27,49 @@
 
   color: #000000;
   margin: 25px 0;
+  align-items: end;
 }
 
 .medicament-name {
   color: #547654;
+}
+
+.table-medicament-rapport{
+  margin: 0vh 3vw;
+  overflow-x: auto;
+}
+
+@media (max-width: 1250px) {
+  .desc {
+    font-size: 28px;
+    margin: 25px 0;
+  }
+}
+
+@media (max-width: 1100px) {
+  .desc {
+    font-size: 23px;
+    margin: 25px 0;
+  }
+}
+
+@media (max-width: 900px) {
+  .desc {
+    font-size: 20px;
+    margin: 25px 0;
+  }
+}
+
+@media (max-width: 850px) {
+  .desc {
+    font-size: 18px;
+    margin: 25px 0;
+  }
+}
+
+@media (max-width: 707px) {
+  .desc {
+    font-size: 20px;
+    margin: 25px 0;
+  }
 }
