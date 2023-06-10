@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Backdrop, CircularProgress } from "@mui/material";
 import Avatar from "../../../../components/avatar/avatar";
 import axios from "axios";
 import getEnvironnement from "../../../../environnement";
@@ -7,56 +6,137 @@ import logo from "../../../../assets/images/pharma.png";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid } from "recharts";
 import FormFilterRapport from "../../../../components/formFilterRapport/formFilterRapport";
 import "./rapport.css";
+import { useSelector } from "react-redux";
+import { userSelector } from "../../../../store/userSlice";
 
 
 
 function Rapport() {
-  const data = [
-    { name: "Jan", entree: 19, sortie: 25 },
-    { name: "Feb", entree: 11, sortie: 23 },
-    { name: "Mar", entree: 30, sortie: 18 },
-    { name: "Avr", entree: 11, sortie: 23 },
-    { name: "Mai", entree: 0, sortie: 0 },
-    { name: "Jui", entree: 0, sortie: 0 },
-    { name: "Jul", entree: 0, sortie: 0 },
-    { name: "Aou", entree: 23, sortie: 18 },
-    { name: "Sep", entree: 11, sortie: 22 },
-    { name: "Oct", entree: 0, sortie: 0 },
-    { name: "Nov", entree: 11, sortie: 13 },
-    { name: "Dec", entree: 0, sortie: 0 }
-  ];
-
   const [image, setImage] = useState(`${getEnvironnement().BACKEND_URL}/storage/default-profile.jpg`);
   const [nom, setNom] = useState("admin");
   const [prenom, setPrenom] = useState("admin");
+  const user = useSelector(userSelector);
+  const months = ["Jan", "Feb", "Mar", "Avr", "Mai", "Jui", "Jul", "Aou", "Sep", "Oct", "Nov", "Dec"];
+  const [entrees, setEntree] = useState(Array.from({ length: 12 }, () => 0));
+  const [sorties, setSorties] = useState(Array.from({ length: 12 }, () => 0));
 
   const [openFormTrie, setOpenFormTrie] = useState(false);
   const [errorTrie, setErrorTrie] = useState(null);
-
+  const [medicaments, setMedicaments] = useState([]);
+  const [medicamentsget, setMedicamentsget] = useState("");
+  const [dateget, setDateget] = useState("");
+  const [rapportData, setRapportData] = useState(Array.from({ length: 12 }, () => ({ name: "", entree: 0, sortie: 0 })));
+  const [optionsTrierPar, setOptionsTrierPar] = useState([]);
   useEffect(() => {
-    axios.get(`${getEnvironnement().API_URL}/users/1`)
+    axios.get(`${getEnvironnement().API_URL}/users/${user.id}`)
       .then((response) => {
         setNom(response.data.nom);
         setPrenom(response.data.prenom);
         setImage(`${getEnvironnement().BACKEND_URL}/storage/${response.data.image_profile}`);
-        setErrorTrie(response.data.error);
       });
   }, []);
 
+  const onValidateHandler = (designation, date) => {
+    const url = `${getEnvironnement().API_URL}/rapport/mid/${designation}/${date}`;
+    // let body = {
+    //   designation, date
+    // };
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      }
+    };
+
+    axios.post(url, {}, config)
+      .then(() => {
+        setMedicamentsget(designation);
+        setDateget(date);
+        setOpenFormTrie(false);
+        setEntree(Array.from({ length: 12 }, () => 0));
+        setSorties(Array.from({ length: 12 }, () => 0));
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+
+  useEffect(() => {
+    axios.get(`${getEnvironnement().API_URL}/rapport`)
+      .then((response) => {
+        const res = response.data;
+        res.forEach((item) => {
+          setOptionsTrierPar(optionsTrierPar.push(item.designation));
+        });
+        setMedicaments(optionsTrierPar);
+      });
+  }, []);
+
+  useEffect(() => {
+    if (medicamentsget) {
+      axios.get(`${getEnvironnement().API_URL}/rapport/mid/${medicamentsget}/${dateget}`)
+        .then((response) => {
+          const res = response.data;
+          entrees.forEach((item, index) => {
+            setEntree(() => {
+              
+              console.log(res);
+              if (res[index]) {
+                if (res[index].type === "entree" && res[index].year == dateget) {
+                  // res.forEach((item,index)){
+                  //   if(){
+
+                  //   }
+                  // }
+                  entrees[res[index].month - 1] = res[index].quantite;
+                }
+              }
+              return index;
+            }
+            );
+          });
+          sorties.forEach((item, index) => {
+            setSorties(() => {
+              if (res[index]) {
+                if (res[index].type === "sortie" && res[index].year == dateget) {
+                  sorties[res[index].month - 1] = res[index].quantite;
+                }
+              }
+              return index;
+            }
+            );
+          });
+          rapportData.forEach((item, index) => {
+            setRapportData(prevData => {
+              const newData = [...prevData];
+              newData[index].name = months[index];
+              newData[index].entree = entrees[index];
+              newData[index].sortie = sorties[index];
+              return newData;
+            });
+          });
+        });
+    } else {
+      axios.get(`${getEnvironnement().API_URL}/rapport/mid/TEST3`)
+        .then(() => {
+          rapportData.forEach((item, index) => {
+            setRapportData(prevData => {
+              const newData = [...prevData];
+              newData[index].name = months[index];
+              newData[index].entree = entrees[index];
+              newData[index].sortie = sorties[index];
+              return newData;
+            });
+          });
+        });
+    }
+  }, [medicamentsget,dateget]);
   return (
     <div className="entrees-view">
-      <Backdrop
-        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-      // open={openBackdrop}
-      // onClick={() => setOpenBackdrop(false)}
-      >
-        <CircularProgress color="inherit" />
-      </Backdrop>
       <FormFilterRapport
         open={openFormTrie}
-        optionsTrierPar={["Médicament","Médicament2","Médicament3","Médicament4"]}
+        optionsTrierPar={medicaments}
         handleClose={() => setOpenFormTrie(false)}
-        onClickValider={() => false}
+        onClickValider={onValidateHandler}
         onClickAnnuler={() => setOpenFormTrie(false)}
         error={errorTrie}
       />
@@ -64,7 +144,6 @@ function Rapport() {
         <Avatar image={image} nom={nom} prenom={prenom} />
         <img className="logo" src={logo} />
       </div>
-      {/* <CustomAlert status="success" open={openAlertAdd}>{messageAlert}</CustomAlert> */}
       <div className="option-rapport">
         <div
           className="boutton-filtrer-rapport"
@@ -77,14 +156,14 @@ function Rapport() {
         </div>
       </div>
       <div className="option-rapport">
-        <p className="desc">Variation des quantité “<span className="medicament-name">ALDOPA</span>” en fonction des Quantité</p>
+        <p className="desc">Variation des quantité “<span className="medicament-name">{medicamentsget}</span>” en fonction des Quantité <span className="medicament-name">{dateget}</span></p>
       </div>
       <div className="table-medicament">
-        <BarChart width={1300} height={450} data={data} barGap={0}>
+        <BarChart width={1300} height={450} data={rapportData} barGap={0}>
           <XAxis dataKey="name" stroke="#000" tick={{ fontSize: 36, fontWeight: 400, fontFamily: "Inder", lineHeight: 45 }} />
           <YAxis tickCount={4} tick={{ fontSize: 36, fontWeight: 400, fontFamily: "Inder", color: "#000" }} />
           <Tooltip wrapperStyle={{ width: 100, backgroundColor: "#FFF8" }} />
-          <CartesianGrid stroke="#9D0F0F" strokeDasharray="6 6" vertical={false}/>
+          <CartesianGrid stroke="#9D0F0F" strokeDasharray="6 6" vertical={false} />
           <Bar dataKey="entree" fill="#A70505" barSize={33} />
           <Bar dataKey="sortie" fill="#4B7D4A" barSize={33} />
         </BarChart>
