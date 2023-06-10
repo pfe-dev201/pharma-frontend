@@ -76,17 +76,10 @@ function Rapport() {
       axios.get(`${getEnvironnement().API_URL}/rapport/mid/${medicamentsget}/${dateget}`)
         .then((response) => {
           const res = response.data;
-          entrees.forEach((item, index) => {
+          res.forEach((item, index) => {
             setEntree(() => {
-              
-              console.log(res);
               if (res[index]) {
                 if (res[index].type === "entree" && res[index].year == dateget) {
-                  // res.forEach((item,index)){
-                  //   if(){
-
-                  //   }
-                  // }
                   entrees[res[index].month - 1] = res[index].quantite;
                 }
               }
@@ -94,7 +87,7 @@ function Rapport() {
             }
             );
           });
-          sorties.forEach((item, index) => {
+          res.forEach((item, index) => {
             setSorties(() => {
               if (res[index]) {
                 if (res[index].type === "sortie" && res[index].year == dateget) {
@@ -158,7 +151,7 @@ function Rapport() {
       <div className="option-rapport">
         <p className="desc">Variation des quantité “<span className="medicament-name">{medicamentsget}</span>” en fonction des Quantité <span className="medicament-name">{dateget}</span></p>
       </div>
-      <div className="table-medicament">
+      <div className="table-medicament-Rapport">
         <BarChart width={1300} height={450} data={rapportData} barGap={0}>
           <XAxis dataKey="name" stroke="#000" tick={{ fontSize: 36, fontWeight: 400, fontFamily: "Inder", lineHeight: 45 }} />
           <YAxis tickCount={4} tick={{ fontSize: 36, fontWeight: 400, fontFamily: "Inder", color: "#000" }} />

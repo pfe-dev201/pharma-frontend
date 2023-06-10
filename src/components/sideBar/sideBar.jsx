@@ -69,7 +69,7 @@ function SideBar ({ setOpenDrawer }) {
 }
 
 SideBar.propTypes = {
-  setOpenDrawer: PropTypes.bool.isRequired,
+  setOpenDrawer: PropTypes.func.isRequired,
 };
 
 export default SideBar;
