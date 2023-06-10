@@ -76,29 +76,32 @@ function Rapport() {
       axios.get(`${getEnvironnement().API_URL}/rapport/mid/${medicamentsget}/${dateget}`)
         .then((response) => {
           const res = response.data;
-          entrees.forEach((item, index) => {
+          res.forEach((item, index) => {
             setEntree(() => {
-              
-              console.log(res);
               if (res[index]) {
                 if (res[index].type === "entree" && res[index].year == dateget) {
-                  // res.forEach((item,index)){
-                  //   if(){
-
-                  //   }
-                  // }
-                  entrees[res[index].month - 1] = res[index].quantite;
+                  for (let b = 0; b < 12; b++) {
+                    const element = res[index].month;
+                    if (element == b + 1){
+                      entrees[res[index].month - 1] += res[index].quantite;
+                    }
+                  }
                 }
               }
               return index;
             }
             );
           });
-          sorties.forEach((item, index) => {
+          res.forEach((item, index) => {
             setSorties(() => {
               if (res[index]) {
                 if (res[index].type === "sortie" && res[index].year == dateget) {
-                  sorties[res[index].month - 1] = res[index].quantite;
+                  for (let b = 0; b < 12; b++) {
+                    const element = res[index].month;
+                    if (element == b + 1){
+                      sorties[res[index].month - 1] += res[index].quantite;
+                    }
+                  }
                 }
               }
               return index;
