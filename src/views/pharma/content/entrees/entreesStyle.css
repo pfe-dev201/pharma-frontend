@@ -58,7 +58,6 @@
   display: flex;
   justify-content: space-between;
   width: 280px;
-  margin-right: 3vh;
 }
 
 .table-medicament{
@@ -68,4 +67,34 @@
 .pagination-section{
   height: 50px;
   margin: 1vh 3vw;
+}
+
+@media (max-width: 950px) {
+  .header{
+    height: 80px;
+    margin: 2vh 3vw 0vh 3vw!important;
+  }
+  
+  .logo{
+    width: 57px !important;
+    height: 65px !important;
+  }
+
+  .option{
+    margin: 0vh 3vw 2vh 3vw !important;
+  }
+
+  .boutton-ajouter-medicament p {
+    font-size: 12px;
+    padding: 6px 18px !important;
+  }
+
+  .filtrer-trier{
+    width: 200px !important;
+    margin-right: 10px !important;
+  }
+
+  .pagination-section{
+    margin: 0vh 3vw !important;
+  }
 }

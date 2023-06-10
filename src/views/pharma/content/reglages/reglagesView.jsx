@@ -444,7 +444,7 @@ function ReglagesView() {
               textError={errorPeriodes !== null ? errorPeriodes.prochePerimee ? errorPeriodes.prochePerimee : [] : []}
               value={prochePerimee}
               placeholder="Période proche perimée"
-              inputLabel="Période proche perimée :"
+              inputLabel="Proche périmée"
               onChangeValue={(e) => setProchePerimee(e.target.value)}
             />
           </Grid>
@@ -457,7 +457,7 @@ function ReglagesView() {
               textError={errorPeriodes !== null ? errorPeriodes.procheTerminee ? errorPeriodes.procheTerminee : [] : []}
               value={procheTerminee}
               placeholder="Période proche términée"
-              inputLabel="Période proche términée :"
+              inputLabel="Proche términée"
               onChangeValue={(e) => setProcheTerminee(e.target.value)}
             />
           </Grid>
@@ -466,7 +466,7 @@ function ReglagesView() {
               className="boutton-enregistrer-periode"
               onClick={enregistrerHandler}
             >
-              <p>ENREGISTRER</p>
+              <p>VALIDER</p>
             </div>
           </Grid>
         </Grid>
@@ -480,7 +480,7 @@ function ReglagesView() {
               setOpenForm(true);
             }}
           >
-            <p>AJOUTER UN UTILISATEUR</p>
+            <p>N UTILISATEUR</p>
           </div>
           <div className="filtrer-trier">
             <Trier

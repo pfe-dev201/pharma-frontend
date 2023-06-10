@@ -35,3 +35,14 @@ td{
 .supprimer:hover{
   color: #DA1C1C;
 }
+
+@media (max-width: 950px) {
+  .th {
+    font-size: 17px;
+  }
+
+  td{
+    font-size: 17px;
+    height: 40px;
+  }
+}

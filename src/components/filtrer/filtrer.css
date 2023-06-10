@@ -22,3 +22,15 @@
   top: 10px;
   font-size: 24px;
 }
+
+@media (max-width: 950px) {
+  .filtrer svg{
+    width: 26px;
+    height: 26px;
+  }
+
+  .filtrer span{
+    font-size: 18px;
+    top: 5px;
+  }
+}

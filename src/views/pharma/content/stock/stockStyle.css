@@ -96,3 +96,9 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #C7463E;
 }
+
+@media (max-width: 950px) {
+  .option-stock{
+    margin: 0vh 3vw 2vh 3vw;
+  }
+}

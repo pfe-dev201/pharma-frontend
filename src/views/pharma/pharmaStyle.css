@@ -15,8 +15,52 @@ body{
   display: flex;
 }
 
+.sidebarinf700{
+  display: none;
+}
+
+.menu{
+  display: none;
+}
+
 .content{
   position: relative;
   left: 316px;
   width: calc(100% - 316px);
+}
+
+@media (min-width: 707px) and (max-width: 950px) {
+  .content {
+    left: 246px;
+    width: calc(100% - 246px);
+  }
+}
+
+@media (max-width: 707px) {
+  .pharmaView {
+    flex-direction: column;
+  }
+
+  .sidebarsup700{
+      display: none;
+  }
+
+  .sidebarinf700{
+    display: block;
+}
+
+  .menu{
+    display: block;
+    background-color: #9D0F0F;
+    text-align: center;
+  }
+
+  .menu button{
+    width: 100%;
+  }
+
+  .content{
+    left: 0px;
+    width: 100%;
+  }
 }

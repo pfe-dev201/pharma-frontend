@@ -59,6 +59,7 @@ function FormAjouterMedicament({ open, handleClose, onClickAjouter, onClickModif
 
   return (
     <Dialog
+      className="form"
       onClose={() => {
         resetForm();
         handleClose();
