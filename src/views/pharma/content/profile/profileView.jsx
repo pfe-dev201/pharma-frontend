@@ -203,7 +203,7 @@ function ProfileView() {
               error={error !== null ? error.confirmPass ? true : false : false}
               textError={error !== null ? error.confirmPass ? error.confirmPass : [] : []}
               value={confirmPass}
-              inputLabel="Confirmation du mot de passe :"
+              inputLabel="Confirmation mot de passe :"
               onChangeValue={(e) => setConfirmPass(e.target.value)}
             />
           </Grid>

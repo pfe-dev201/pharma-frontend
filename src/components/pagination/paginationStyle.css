@@ -50,3 +50,17 @@
   margin: 13px;
   padding-top: 5px;
 }
+
+@media (max-width: 950px) {
+  .boutton-pagination p{
+    width:28px;
+    height: 28px;
+    font-size: 18px;
+  }
+
+  .number{
+    font-size: 18px;
+    margin: 10px;
+    padding-top: 7px;
+  }
+}

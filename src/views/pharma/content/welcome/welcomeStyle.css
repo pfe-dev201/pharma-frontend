@@ -8,7 +8,7 @@
 
 .bienvenu-text{
   color: white;
-  font-size: 58px;
+  font-size: 50px;
   text-align: center;
   margin-top: 80px;
   margin-bottom: 50px;
@@ -20,8 +20,8 @@
   justify-content: center;
   align-items: center;
   background-color: white;
-  width: 205px;
-  height: 205px;
+  width: 200px;
+  height: 200px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -34,4 +34,51 @@
 .logoNameBienvenu{
   color: #DA1C1C;
   font-size: 32px;
+}
+
+@media (min-width: 900px) and (max-width: 1100px) {
+  .bienvenu-text{
+    font-size: 40px;
+  }
+
+  .bg-imgLogo{
+    width: 150px;
+    height: 150px;
+  }
+
+  .logoBienvenu{
+    width: 77px;
+    height: 90px;
+  }
+  
+  .logoNameBienvenu{
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 900px) {
+  .bienvenu-text{
+    font-size: 30px;
+  }
+
+  .bg-imgLogo{
+    width: 120px;
+    height: 120px;
+  }
+
+  .logoBienvenu{
+    width: 57px;
+    height: 65px;
+  }
+  
+  .logoNameBienvenu{
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 707px) {
+  .Welcome{
+    margin-left: 0px;
+    margin-top: 3px;
+  }
 }

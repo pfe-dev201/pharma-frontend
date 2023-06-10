@@ -55,3 +55,35 @@
   font-size: 36px;
   font-family: 'Inder', sans-serif;
 }
+
+@media (max-width: 950px) {
+  .sideBar {
+    width: 246px;
+  }
+
+  .link-title{
+    font-size: 30px;
+  }
+  
+  .link svg {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+@media (max-width: 707px) {
+  .sideBar {
+    width: 100%;
+    align-content: center;
+    z-index: 1;
+  }
+
+  .link {
+    text-align: center;
+    left: 7vw;
+  }
+
+  .link svg {
+    display: none;
+  }
+}

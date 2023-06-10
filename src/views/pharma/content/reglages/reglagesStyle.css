@@ -33,19 +33,21 @@
 .boutton-enregistrer-periode{
   align-items: center;
   margin-top: 20px;
+  width: 100%;
 }
 
 .boutton-enregistrer-periode p{
   background-color: #A70505;
   color: white;
   text-align: center;
-  padding: 16px 27px;
+  padding: 19px 0px;
   border-radius: 5px;
   cursor: pointer;
   font-family: 'Inder', sans-serif;
   margin: 0px;
   height: 55px;
-  border: solid 1px green;
+  width: 100%;
+  font-size: 13px;
 }
 
 .boutton-enregistrer-periode p:hover{
@@ -103,10 +105,32 @@
 }
 
 .table-user{
+  overflow-x: auto;
   margin: 1vh 3vw;
 }
 
 .pagination-section{
   height: 50px;
   margin: 1vh 3vw;
+}
+
+@media (max-width: 950px) {
+  .option{
+    margin: 0vh 3vw 2vh 3vw !important;
+  }
+
+  .boutton-ajouter-user p {
+    font-size: 12px;
+    padding: 6px 18px !important;
+    width: 100%;
+  }
+
+  .filtrer-trier{
+    width: 200px !important;
+    margin-right: 10px !important;
+  }
+
+  .pagination-section{
+    margin: 0vh 3vw !important;
+  }
 }

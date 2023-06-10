@@ -22,3 +22,16 @@
   top: 10px;
   font-size: 24px;
 }
+
+@media (max-width: 950px) {
+  .return svg{
+    width: 22px;
+    height: 22px;
+    transform: translateX(40px) translateY(6px) scale(1) !important;
+  }
+
+  .return span{
+    font-size: 18px;
+    top: 5px;
+  }
+}
