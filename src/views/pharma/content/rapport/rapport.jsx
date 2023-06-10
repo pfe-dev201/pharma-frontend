@@ -139,7 +139,7 @@ function Rapport() {
       </div>
       <div className="option-rapport">
         <div
-          className="boutton-filtrer-rapport"
+          className="boutton-ajouter-medicament"
           onClick={() => {
             setOpenFormTrie(true);
             setErrorTrie(null);
@@ -149,12 +149,12 @@ function Rapport() {
         </div>
       </div>
       <div className="option-rapport">
-        <p className="desc">Variation des quantité “<span className="medicament-name">{medicamentsget}</span>” en fonction des Quantité <span className="medicament-name">{dateget}</span></p>
+        <p className="desc">Variation de “<span className="medicament-name">{medicamentsget}</span>” en fonction des Quantité <span className="medicament-name">{dateget}</span></p>
       </div>
-      <div className="table-medicament-Rapport">
-        <BarChart width={1300} height={450} data={rapportData} barGap={0}>
-          <XAxis dataKey="name" stroke="#000" tick={{ fontSize: 36, fontWeight: 400, fontFamily: "Inder", lineHeight: 45 }} />
-          <YAxis tickCount={4} tick={{ fontSize: 36, fontWeight: 400, fontFamily: "Inder", color: "#000" }} />
+      <div className="table-medicament-rapport">
+        <BarChart width={1200} height={400} data={rapportData} barGap={0}>
+          <XAxis dataKey="name" stroke="#000" tick={{ fontSize: 28, fontWeight: 400, fontFamily: "Inder", lineHeight: 40 }} />
+          <YAxis tickCount={4} tick={{ fontSize: 28, fontWeight: 400, fontFamily: "Inder", color: "#000" }} />
           <Tooltip wrapperStyle={{ width: 100, backgroundColor: "#FFF8" }} />
           <CartesianGrid stroke="#9D0F0F" strokeDasharray="6 6" vertical={false} />
           <Bar dataKey="entree" fill="#A70505" barSize={33} />
