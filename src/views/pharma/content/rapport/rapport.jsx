@@ -80,7 +80,11 @@ function Rapport() {
             setEntree(() => {
               if (res[index]) {
                 if (res[index].type === "entree" && res[index].year == dateget) {
-                  entrees[res[index].month - 1] = res[index].quantite;
+                  for (let m = 0; m < 13; m++) {
+                    if (res[index].month == m){
+                      entrees[res[index].month - 1] += res[index].quantite;
+                    }
+                  }
                 }
               }
               return index;
@@ -91,7 +95,11 @@ function Rapport() {
             setSorties(() => {
               if (res[index]) {
                 if (res[index].type === "sortie" && res[index].year == dateget) {
-                  sorties[res[index].month - 1] = res[index].quantite;
+                  for (let m = 0; m < 13; m++) {
+                    if (res[index].month == m){
+                      sorties[res[index].month - 1] += res[index].quantite;
+                    }
+                  }
                 }
               }
               return index;
