@@ -49,12 +49,12 @@ function FormFilterRapport({
         />
         <Grid container>
           <Grid item xs={6}>
-            <div className="boutton" onClick={onClickAnnuler}>
+            <div className="boutton-rapport" onClick={onClickAnnuler}>
               <p>ANNULER</p>
             </div>
           </Grid>
           <Grid item xs={6}>
-            <div className="boutton" onClick={() => onClickValider(trierPar, typeTrie)}>
+            <div className="boutton-rapport" onClick={() => onClickValider(trierPar, typeTrie)}>
               <p>VALIDER</p>
             </div>
           </Grid>
