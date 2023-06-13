@@ -49,17 +49,17 @@ function FormTrierMedicament({
         />
         <Grid container>
           <Grid item xs={3}>
-            <div className="boutton" onClick={onClickAnnuler}>
+            <div className="boutton-formTrier" onClick={onClickAnnuler}>
               <p>ANNULER</p>
             </div>
           </Grid>
           <Grid item xs={6}>
-            <div className="boutton" onClick={onClickDeleteTrie}>
+            <div className="boutton-formTrier" onClick={onClickDeleteTrie}>
               <p>SUPPRIMER LE TRIE</p>
             </div>
           </Grid>
           <Grid item xs={3}>
-            <div className="boutton" onClick={() => onClickValider(trierPar, typeTrie)}>
+            <div className="boutton-formTrier" onClick={() => onClickValider(trierPar, typeTrie)}>
               <p>VALIDER</p>
             </div>
           </Grid>

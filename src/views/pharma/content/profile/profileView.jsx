@@ -15,7 +15,7 @@ function ProfileView() {
   const dispatch = useDispatch();
   const fileInputRef = useRef(null);
 
-  const [imageLogo, setImageLogo] = useState(`${getEnvironnement().BACKEND_URL}/storage/default-profile.jpg`);
+  const [imageLogo, setImageLogo] = useState(`${getEnvironnement().BACKEND_URL}/storage/${user.image_profile}`);
   const [nomLogo, setNomLogo] = useState("");
   const [prenomLogo, setPrenomLogo] = useState("");
 
@@ -84,7 +84,7 @@ function ProfileView() {
           setPass("");
           setConfirmPass("");
           dispatch(setUser(response.data.user));
-          setImageLogo(response.data.user.image_profile);
+          setImageLogo(`${getEnvironnement().BACKEND_URL}/storage/${response.data.user.image_profile}`);
           setTimeout(() => setOpenBackdrop(false), 800);
           setMessageAlert(response.data.message);
           setTimeout(() => setOpenAlert(true), 800);

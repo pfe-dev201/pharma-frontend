@@ -1,25 +1,32 @@
-.boutton{
+.boutton-formFiltrer{
   align-items: center;
   margin-top: 15px;
   margin-right: 15px;
 }
 
-.boutton p{
+.boutton-formFiltrer p{
   background-color: #A70505;
   color: white;
   text-align: center;
-  padding: 10px 27px;
+  padding: 10px 0px;
   border-radius: 5px;
   cursor: pointer;
   font-family: 'Inder', sans-serif;
   margin: 0px;
 }
 
-.boutton p:hover{
+.boutton-formFiltrer p:hover{
   background-color: #9D0F0F;
   box-shadow: 2px 2px 2px rgb(229, 229, 229);
   transition-property: bottom;
   transition-duration: 3s;
   position: relative;
   bottom: 5px;
+}
+
+@media (max-width: 707px) {
+  .boutton-formFiltrer p {
+    font-size: 14px !important;
+    text-align: center !important;
+  }
 }

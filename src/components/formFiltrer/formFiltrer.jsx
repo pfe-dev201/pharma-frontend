@@ -302,18 +302,18 @@ function FormFiltrerMedicament({
         </Grid>
         <Grid container>
           <Grid item xs={3}>
-            <div className="boutton" onClick={onClickAnnuler}>
+            <div className="boutton-formFiltrer" onClick={onClickAnnuler}>
               <p>ANNULER</p>
             </div>
           </Grid>
           <Grid item xs={6}>
-            <div className="boutton" onClick={onClickDeleteFiltre}>
+            <div className="boutton-formFiltrer" onClick={onClickDeleteFiltre}>
               <p>SUPPRIMER LE FILTRE</p>
             </div>
           </Grid>
           <Grid item xs={3}>
             <div
-              className="boutton"
+              className="boutton-formFiltrer"
               onClick={() => {
                 if (isUser) {
                   onClickValider(filtrerPar, typeFiltre, egaleA, commencePar, terminePar, statusEgaleA, roleEgaleA);
